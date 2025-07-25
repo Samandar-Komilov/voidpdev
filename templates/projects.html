@@ -1,0 +1,42 @@
+<!-- templates/projects.html -->
+{% extends 'base.html' %}
+
+{% block title %}projects - void *ptr;{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>projects</h1>
+        <p>systems built, problems solved</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+            <div class="filter-group">
+                <label for="tech-filter" style="color: var(--text-muted); font-family: var(--font-mono);">filter_by:</label>
+                <select 
+                    id="tech-filter" 
+                    name="tech"
+                    hx-get="{% url 'projects' %}"
+                    hx-target="#projects-container"
+                    hx-trigger="change"
+                    hx-include="[name='tech']"
+                >
+                    <option value="">all_tech</option>
+                    {% for tech in all_technologies %}
+                    <option value="{{ tech }}" {% if tech == current_tech %}selected{% endif %}>{{ tech|lower }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Projects Container -->
+        <div id="projects-container">
+            {% include 'partials/project_list.html' %}
+        </div>
+    </div>
+</section>
+{% endblock %}

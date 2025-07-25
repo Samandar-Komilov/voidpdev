@@ -1,0 +1,152 @@
+<!-- templates/index.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}void *ptr; - System Architect & Engineer{% endblock %}
+
+{% block content %}
+<!-- Hero Section - Terminal Style -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot green"></div>
+                    </div>
+                    <div class="terminal-title">terminal</div>
+                </div>
+                <div class="terminal-content">
+                    <div class="terminal-line">
+                        <span class="prompt">$</span>
+                        <span class="command">whoami</span>
+                    </div>
+                    <div class="output">system architect • backend engineer • problem solver</div>
+                    
+                    <div class="terminal-line">
+                        <span class="prompt">$</span>
+                        <span class="command">cat /about/focus.txt</span>
+                    </div>
+                    <div class="output">
+                        building robust systems that scale<br>
+                        raw performance over flashy interfaces<br>
+                        clean architecture • efficient algorithms • minimal dependencies
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="prompt">$</span>
+                        <span class="command">ls -la /skills/</span>
+                    </div>
+                    <div class="output">
+                        drwx------ python django postgresql<br>
+                        drwx------ go rust systems-programming<br>
+                        drwx------ docker kubernetes infrastructure<br>
+                        drwx------ algorithms data-structures optimization
+                    </div>
+                    
+                    <div class="terminal-line">
+                        <span class="prompt">$</span>
+                        <span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+{% if featured_projects %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">featured_projects</h2>
+        <div class="projects-grid">
+            {% for project in featured_projects %}
+            <div class="project-card">
+                <h3 class="project-title">{{ project.title }}</h3>
+                <p class="project-description">{{ project.description }}</p>
+                <div class="project-tech">
+                    {% for tech in project.get_technologies_list %}
+                    <span class="tech-tag">{{ tech|lower }}</span>
+                    {% endfor %}
+                </div>
+                <div class="project-links">
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="project-link">source</a>
+                    {% endif %}
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" target="_blank" class="project-link">demo</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center" style="margin-top: 2rem;">
+            <a href="{% url 'projects' %}" class="btn">view all projects</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Blog Posts Section -->
+{% if recent_posts %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">recent_posts</h2>
+        <div class="blog-grid">
+            {% for post in recent_posts %}
+            <article class="blog-card">
+                <div class="blog-meta">
+                    <time>{{ post.created_at|date:"Y-m-d" }}</time>
+                    <span class="reading-time">{{ post.get_reading_time }}min read</span>
+                </div>
+                <h3 class="blog-title">
+                    <a href="{{ post.get_absolute_url }}">{{ post.title|lower }}</a>
+                </h3>
+                <p class="blog-excerpt">{{ post.excerpt }}</p>
+                {% if post.get_tags_list %}
+                <div class="blog-tags">
+                    {% for tag in post.get_tags_list %}
+                    <span class="tag">{{ tag|lower }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+        <div class="text-center" style="margin-top: 2rem;">
+            <a href="{% url 'blog_list' %}" class="btn">read all posts</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- About Section -->
+<section class="section" id="about">
+    <div class="container">
+        <h2 class="section-title">about</h2>
+        <div class="card">
+            <p>I build systems that work. No fluff, no unnecessary complexity – just clean, efficient code that solves real problems.</p>
+            
+            <p>My focus is on backend architecture, performance optimization, and creating scalable solutions. I believe in the power of good fundamentals: solid algorithms, clean data structures, and understanding how systems work at a low level.</p>
+            
+            <p>When I'm not debugging distributed systems or optimizing database queries, I write about the technical challenges and solutions that matter to engineers who care about craft over hype.</p>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="color: var(--primary-green); font-family: var(--font-mono); margin-bottom: 1rem;">core_expertise:</h3>
+                <div class="project-tech">
+                    <span class="tech-tag">python</span>
+                    <span class="tech-tag">django</span>
+                    <span class="tech-tag">postgresql</span>
+                    <span class="tech-tag">redis</span>
+                    <span class="tech-tag">docker</span>
+                    <span class="tech-tag">go</span>
+                    <span class="tech-tag">system design</span>
+                    <span class="tech-tag">performance tuning</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

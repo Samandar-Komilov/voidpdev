@@ -1,0 +1,53 @@
+<!-- templates/blog/blog_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}blog - void *ptr;{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>blog</h1>
+        <p>thoughts on systems, architecture, and engineering</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <!-- Search and Filter Controls -->
+        <div class="blog-controls">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="search posts..."
+                    value="{{ search_query }}"
+                    hx-get="{% url 'blog_list' %}"
+                    hx-target="#blog-content"
+                    hx-trigger="keyup changed delay:300ms"
+                    hx-include="[name='tag']"
+                >
+            </div>
+            <div class="filter-group">
+                <label style="color: var(--text-muted); font-family: var(--font-mono);">filter_by:</label>
+                <select 
+                    name="tag"
+                    hx-get="{% url 'blog_list' %}"
+                    hx-target="#blog-content"
+                    hx-trigger="change"
+                    hx-include="[name='search']"
+                >
+                    <option value="">all_tags</option>
+                    {% for tag in all_tags %}
+                    <option value="{{ tag }}" {% if tag == current_tag %}selected{% endif %}>{{ tag|lower }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Blog Content -->
+        <div id="blog-content">
+            {% include 'blog/partials/blog_list_content.html' %}
+        </div>
+    </div>
+</section>
+{% endblock %}
