@@ -14,8 +14,10 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "gunicorn>=23.0.0",
     "ruff>=0.12.5",
+]
+prod = [
+    "gunicorn>=23.0.0",
 ]
 
 # RUFF configs

@@ -218,8 +218,10 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "gunicorn" },
     { name = "ruff" },
+]
+prod = [
+    { name = "gunicorn" },
 ]
 
 [package.metadata]
@@ -232,7 +234,5 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [
-    { name = "gunicorn", specifier = ">=23.0.0" },
-    { name = "ruff", specifier = ">=0.12.5" },
-]
+dev = [{ name = "ruff", specifier = ">=0.12.5" }]
+prod = [{ name = "gunicorn", specifier = ">=23.0.0" }]
