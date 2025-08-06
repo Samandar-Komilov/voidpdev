@@ -1,13 +1,13 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}void *ptr; - System Architect{% endblock %}</title>
+    <title>{% block title %}voidpdev | Samandar Komilov{% endblock %}</title>
     <meta name="description" content="{% block description %}System architecture, raw power, minimalist code{% endblock %}">
     
     {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/voidp.ico' %}">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="{% url 'home' %}">void *ptr;</a>
+                <a href="{% url 'home' %}">voidpdev</a>
             </div>
             <div class="nav-menu">
                 <a href="{% url 'home' %}" class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">home</a>
@@ -52,11 +52,11 @@
         <div class="container">
             <div class="footer-content">
                 <div class="social-links">
-                    <a href="https://github.com/yourusername" target="_blank">github</a>
-                    <a href="https://linkedin.com/in/yourusername" target="_blank">linkedin</a>
-                    <a href="mailto:your.email@example.com">email</a>
+                    <a href="https://github.com/Samandar-Komilov" target="_blank">github</a>
+                    <a href="https://linkedin.com/in/samandar_komilov" target="_blank">linkedin</a>
+                    <a href="mailto:samandar.komilov@proton.me">email</a>
                 </div>
-                <p>© 2024 void *ptr; • built with django + htmx</p>
+                <p>© 2025 voidpdev; • built with django + htmx</p>
             </div>
         </div>
     </footer>
