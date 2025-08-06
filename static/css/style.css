@@ -553,7 +553,7 @@ main {
     border-bottom: 1px solid var(--dim-green);
 }
 
-.post-content {
+/* .post-content {
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.8;
@@ -599,7 +599,131 @@ main {
 
 .post-content li::marker {
     color: var(--primary-green);
+} */
+
+.post-content {
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+    color: #dcdcdc; /* Base light grey text */
+    font-size: 1rem;
 }
+
+/* Headings */
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    margin: 2rem 0 1rem 0;
+    color: #9eff9e; /* Mild neon green */
+    font-family: var(--font-mono);
+}
+
+.post-content h2::before { content: '## '; }
+.post-content h3::before { content: '### '; }
+.post-content h4::before { content: '#### '; }
+
+/* Paragraphs */
+.post-content p {
+    margin-bottom: 1.5rem;
+    color: #e0e0e0;
+}
+
+/* Blockquotes */
+.post-content blockquote {
+    border-left: 4px solid var(--primary-green);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    background: #1e1e1e;
+    color: #ccc;
+    border-radius: 6px;
+}
+
+/* Lists */
+.post-content ul,
+.post-content ol {
+    margin: 1rem 0 1rem 2rem;
+    color: #ccc;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-content li::marker {
+    color: var(--primary-green);
+}
+
+/* Tables */
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    color: #ddd;
+    background: #121212;
+}
+
+.post-content th,
+.post-content td {
+    border: 1px solid #444;
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.post-content th {
+    background: #1e1e1e;
+    color: #9eff9e;
+    font-weight: bold;
+}
+
+.post-content caption {
+    caption-side: top;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+    color: #b0b0b0;
+}
+
+/* Code blocks */
+.post-content pre {
+    background: #1e1e1e;
+    color: #ccc;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 2rem 0;
+}
+
+.post-content code {
+    font-family: 'Fira Code', monospace;
+    background: transparent;
+    color: inherit;
+}
+
+/* Inline code */
+.post-content p code {
+    background: #2e2e2e;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: #ffcc99;
+}
+
+/* Images */
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+/* Captions (if you use <figcaption>) */
+.post-content figcaption {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 0.5rem;
+}
+
 
 /* Buttons */
 .btn {

@@ -1,6 +1,7 @@
 from typing import ClassVar
 
-import markdown
+from bs4 import BeautifulSoup
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -30,7 +31,7 @@ class Project(models.Model):
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
-    content = models.TextField(help_text="Write in Markdown")
+    content = RichTextUploadingField(help_text="Main Content")
     excerpt = models.TextField(max_length=300, blank=True)
     featured_image = models.ImageField(upload_to="blog/", blank=True, null=True)
     published = models.BooleanField(default=False)
@@ -51,26 +52,17 @@ class BlogPost(models.Model):
             self.slug = slugify(self.title)
         if not self.excerpt and self.content:
             # Create excerpt from first 150 chars of content
-            plain_text = self.get_plain_content()[:150]
-            self.excerpt = plain_text + "..." if len(plain_text) == 150 else plain_text
+            plain_text = self.get_plain_content()[:100]
+            self.excerpt = plain_text + "..." if len(plain_text) == 100 else plain_text
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("blog_detail", kwargs={"slug": self.slug})
 
-    def get_html_content(self):
-        """Convert markdown to HTML with syntax highlighting"""
-        return markdown.markdown(
-            self.content, extensions=["codehilite", "fenced_code", "tables", "toc"]
-        )
-
     def get_plain_content(self):
-        """Get plain text version for excerpts"""
-        import re
-
-        # Simple markdown to text conversion
-        text = re.sub(r"[#*`_\[\]()]", "", self.content)
-        return " ".join(text.split())
+        """Get plain text version from HTML"""
+        soup = BeautifulSoup(self.content or "", "html.parser")
+        return soup.get_text(separator=" ", strip=True)
 
     def get_tags_list(self):
         return [tag.strip() for tag in self.tags.split(",") if tag.strip()]

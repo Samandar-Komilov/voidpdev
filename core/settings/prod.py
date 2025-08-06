@@ -1,8 +1,5 @@
-from .base import * # noqa
+from .base import *  # noqa
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    "voidp.dev",
-    "www.voidp.dev"
-]
+ALLOWED_HOSTS = ["voidp.dev", "www.voidp.dev"]

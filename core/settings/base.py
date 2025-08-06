@@ -29,6 +29,8 @@ DJANGO_APPS = [
 
 EXTERNAL_APPS = [
     "jazzmin",
+    "ckeditor",
+    "ckeditor_uploader",
 ]
 
 LOCAL_APPS = [
@@ -129,3 +131,25 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# CKEDITOR configs
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Custom",
+        "toolbar_Custom": [
+            ['Bold', 'Italic', 'Underline'],
+            ['CodeSnippet', 'RemoveFormat'],
+            ['Link', 'Unlink'],
+            ['NumberedList', 'BulletedList'],
+            ['Image', 'Table'],
+            ['Source'],
+            ['Maximize'],
+        ],
+        "extraPlugins": "codesnippet",
+        "codeSnippet_theme": "github-dark",  # Or choose from themes listed below
+        "height": 400,
+        "width": '100%',
+    }
+}
+CKEDITOR_UPLOAD_PATH = "uploads/"

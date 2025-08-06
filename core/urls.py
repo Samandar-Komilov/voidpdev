@@ -5,6 +5,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("voidp-you-cant-find-admin/", admin.site.urls),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
     path("", include("pages.urls")),
 ]
 
