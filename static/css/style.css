@@ -116,31 +116,7 @@ a:hover {
 }
 
 /* Code and Terminal Elements */
-code, pre {
-    font-family: var(--font-mono);
-    background: var(--bg-darker);
-    border: 1px solid var(--dim-green);
-}
 
-code {
-    padding: 0.2rem 0.4rem;
-    border-radius: var(--border-radius);
-    color: var(--primary-green);
-    font-size: 0.9em;
-}
-
-pre {
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    overflow-x: auto;
-    position: relative;
-}
-
-pre code {
-    background: none;
-    border: none;
-    padding: 0;
-}
 
 /* Navigation */
 .navbar {
@@ -563,7 +539,7 @@ main {
 .post-content h3,
 .post-content h4 {
     margin: 2rem 0 1rem 0;
-    color: var(--primary-green);
+    color: var(--text-gray);
     font-family: var(--font-mono);
 }
 
@@ -598,7 +574,7 @@ main {
 }
 
 .post-content li::marker {
-    color: var(--primary-green);
+    color: var(--text-gray);
 }
 
 /* Buttons */

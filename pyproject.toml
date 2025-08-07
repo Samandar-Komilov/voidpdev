@@ -5,7 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "beautifulsoup4>=4.13.4",
     "django>=5.2.4",
+    "django-ckeditor>=6.7.3",
+    "django-jazzmin>=3.0.1",
     "markdown>=3.8.2",
     "pillow>=11.3.0",
     "psycopg2-binary>=2.9.10",
@@ -33,6 +36,7 @@ lint.ignore = [
     "E501",     # line too long
     "RUF001",   # ambiguous unicode character in code
     "RUF002",   # ambiguous unicode character in docstring
+    "RUF012",   # typing.ClassVar errors
 ]  
 
 # Paths to exclude
