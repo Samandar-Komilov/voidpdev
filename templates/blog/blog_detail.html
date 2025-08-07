@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 {% load markdown_extras %}
 
-{% block title %}{{ post.title|lower }} - void *ptr;{% endblock %}
+{% block title %}{{ post.title|lower }} | voidpdev{% endblock %}
 {% block description %}{{ post.excerpt }}{% endblock %}
 
 {% block content %}
@@ -10,9 +10,9 @@
     <div class="container">
         <!-- Post Header -->
         <header class="post-header">
-            <div class="blog-meta" style="justify-content: center; margin-bottom: 1rem;">
+            <div class="blog-meta" style="justify-content: space-between; margin-bottom: 1rem;">
                 <time>{{ post.created_at|date:"Y-m-d" }}</time>
-                <span class="reading-time">{{ post.get_reading_time }}min read</span>
+                <span class="reading-time">{{ post.get_reading_time }} min read</span>
             </div>
             <h1>{{ post.title|lower }}</h1>
             {% if post.get_tags_list %}
