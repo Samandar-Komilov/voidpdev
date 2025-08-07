@@ -138,18 +138,18 @@ CKEDITOR_CONFIGS = {
     "default": {
         "toolbar": "Custom",
         "toolbar_Custom": [
-            ['Bold', 'Italic', 'Underline'],
-            ['CodeSnippet', 'RemoveFormat'],
-            ['Link', 'Unlink'],
-            ['NumberedList', 'BulletedList'],
-            ['Image', 'Table'],
-            ['Source'],
-            ['Maximize'],
+            ["Bold", "Italic", "Underline"],
+            ["CodeSnippet", "RemoveFormat"],
+            ["Link", "Unlink"],
+            ["NumberedList", "BulletedList"],
+            ["Image", "Table"],
+            ["Source"],
+            ["Maximize"],
         ],
         "extraPlugins": "codesnippet",
         "codeSnippet_theme": "github-dark",  # Or choose from themes listed below
         "height": 400,
-        "width": '100%',
+        "width": "100%",
     }
 }
 CKEDITOR_UPLOAD_PATH = "uploads/"
