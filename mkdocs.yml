@@ -1,4 +1,4 @@
-site_name: My Portfolio
+site_name: voidpdev
 site_url: https://voidp.dev/
 repo_url: https://github.com/Samandar-Komilov/
 theme:
@@ -8,19 +8,37 @@ theme:
       primary: green
       accent: lime
   font:
-    text: Roboto Mono
+    text: Roboto
+  features:
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+
 extra_css:
   - stylesheets/extra.css
-
-plugins:
-  - blog
-  - search
 
 nav:
   - Home: index.md
   - About: about.md
   - Projects:
-      - Overview: projects/overview.md
-      - Project 1: projects/project1.md
-      - Project 2: projects/project2.md
+      - Nginx Clone: projects/nginx_clone.md
+      - URL Shortener: projects/url_shortener.md
+      - WSGI Framework: projects/oberoon.md
   - Blog: blog/index.md
+
+
+plugins:
+  - blog:
+      pagination_per_page: 5
+      pagination_if_single_page: true
+  - search
+
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
