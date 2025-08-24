@@ -1,0 +1,26 @@
+site_name: My Portfolio
+site_url: https://voidp.dev/
+repo_url: https://github.com/Samandar-Komilov/
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: green
+      accent: lime
+  font:
+    text: Roboto Mono
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - blog
+  - search
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Projects:
+      - Overview: projects/overview.md
+      - Project 1: projects/project1.md
+      - Project 2: projects/project2.md
+  - Blog: blog/index.md
