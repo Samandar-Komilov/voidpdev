@@ -1,5 +1,6 @@
 ---
 title: "C dasturlash tilida struct, union va enum"
+description: "Struct, Union va Enum konstruksiyalari haqida qilingan eski research"
 date: 2023-07-14
 categories:
   - System Programming

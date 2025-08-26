@@ -3,6 +3,7 @@ site_url: https://voidp.dev/
 repo_url: https://github.com/Samandar-Komilov/
 theme:
   name: material
+  custom_dir: overrides
   palette:
     - scheme: slate
       primary: green
@@ -21,8 +22,13 @@ nav:
   - Home: index.md
   - About: about.md
   - Projects:
-      - Nginx Clone: projects/nginx_clone.md
-      - URL Shortener: projects/url_shortener.md
+      - Overview: projects/overview.md
+      - Nginx Clone: 
+        - About: projects/nginx_clone/nginx_clone.md
+        - Journey: projects/nginx_clone/journey.md
+      - URL Shortener: 
+        - About: projects/url_shortener/url_shortener.md
+        - Strategy: projects/url_shortener/strategy.md
       - WSGI Framework: projects/oberoon.md
   - Blog: blog/index.md
 
@@ -32,6 +38,7 @@ plugins:
       pagination_per_page: 5
       pagination_if_single_page: true
   - search
+  - social
 
 
 markdown_extensions:

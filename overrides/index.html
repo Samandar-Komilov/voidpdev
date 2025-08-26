@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block header %}
+<!-- Remove default header (navbar, top bar) -->
+{% endblock %}
+
+{% block footer %}
+<!-- Remove default footer -->
+{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+  <img src="assets/Samandar.jpg" alt="Avatar">
+  <h1>Hi, I'm Samandar</h1>
+  <p>Software Engineer · System Programming Enthusiast</p>
+
+  <div class="buttons">
+    <a href="{{ base_url }}/projects/overview/">🚀 Projects</a>
+    <a href="{{ base_url }}/blog/">✍️ Blog</a>
+  </div>
+
+  <div class="social">
+    <a href="https://github.com/Samandar-Komilov/" target="_blank" title="GitHub">
+        <span class="md-icon" aria-hidden="true">
+        <svg class="mdi" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12a12 12 0 0 0 8.21 11.44c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.41-1.35-1.79-1.35-1.79-1.1-.76.08-.74.08-.74 1.22.09 1.86 1.25 1.86 1.25 1.08 1.85 2.83 1.31 3.52 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.12-.3-.54-1.51.12-3.14 0 0 1-.32 3.28 1.23a11.4 11.4 0 0 1 5.98 0c2.28-1.55 3.28-1.23 3.28-1.23.66 1.63.24 2.84.12 3.14.77.84 1.24 1.91 1.24 3.23 0 4.63-2.8 5.66-5.47 5.96.43.37.82 1.09.82 2.21v3.28c0 .32.22.7.82.58A12 12 0 0 0 24 12C24 5.37 18.63 0 12 0z"/></svg>
+        </span>
+    </a>
+    <a href="https://linkedin.com/in/samandar_komilov/" target="_blank" title="LinkedIn">
+        <span class="md-icon" aria-hidden="true">
+        <svg class="mdi" viewBox="0 0 24 24"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.75 1.75-1.75c.97 0 1.75.78 1.75 1.75s-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.5c0-1.31-.47-2.21-1.64-2.21-.89 0-1.42.6-1.65 1.18-.09.21-.11.5-.11.79v5.74h-3s.04-9.32 0-10.27h3v1.46c.4-.61 1.11-1.48 2.71-1.48 1.98 0 3.48 1.29 3.48 4.06v6.23z"/></svg>
+        </span>
+    </a>
+    <a href="https://x.com/SamandarKomil/" target="_blank" title="X (Twitter)">
+        <span class="md-icon" aria-hidden="true">
+        <svg class="mdi" viewBox="0 0 24 24"><path d="M22.46 0H1.54C.69 0 0 .69 0 1.54v20.92C0 23.31.69 24 1.54 24h20.92c.85 0 1.54-.69 1.54-1.54V1.54C24 .69 23.31 0 22.46 0zm-5.83 20.36-3.9-5.35-3.96 5.35h-2.9l5.4-7.22L6.07 3.64h4.05l3.54 4.9 3.61-4.9h2.88l-5.18 6.88 5.7 7.84h-3.04z"/></svg>
+        </span>
+    </a>
+    <a href="mailto:komilov.samandar07@gmail.com" title="Email">
+        <span class="md-icon" aria-hidden="true">
+        <svg class="mdi" viewBox="0 0 24 24"><path d="M20,4H4C2.89,4 2,4.89 2,6V18C2,19.11 2.89,20 4,20H20C21.11,20 22,19.11 22,18V6C22,4.89 21.11,4 20,4M20,8L12,13L4,8V6L12,11L20,6V8Z"/></svg>
+        </span>
+    </a>
+  </div>
+
+</div>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    text-align: center;
+  }
+  .hero img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 2px solid var(--md-primary-fg-color);
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+  }
+  .hero p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+  .hero .buttons {
+    margin-top: 1.5rem;
+  }
+  .hero .buttons a {
+    display: inline-block;
+    margin: 0 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    background: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  .hero .buttons a:hover {
+    background: var(--md-accent-fg-color);
+  }
+  .hero .social {
+    margin-top: 2rem;
+  }
+  .hero .social a {
+    margin: 0 0.5rem;
+    color: var(--md-primary-fg-color);
+    font-size: 1.8rem;
+    display: inline-block;
+    transition: color 0.2s ease;
+  }
+  .hero .social a:hover {
+    color: var(--md-accent-fg-color);
+  }
+
+</style>
+
+{% endblock %}

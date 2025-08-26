@@ -1,5 +1,6 @@
 ---
 title: "UV package manager & Ruff Formatter - User Guide"
+description: "Everything about switching from pip & requirements.txt to uv & pyproject.toml"
 date: 2025-07-09
 categories:
   - Productivity

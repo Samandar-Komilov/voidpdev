@@ -1,5 +1,6 @@
 ---
 title: "React | Under The Hood"
+description: "My quick research on how React works under the hood, as I felt so hard to grasp and understood frontend frameworks as black-boxes."
 date: 2025-07-12
 categories:
   - Frontend

@@ -1,5 +1,6 @@
 ---
 title: "Preprocessors and Macros in C"
+description: "I wanted to learn compile time features of the C language..."
 date: 2023-10-01
 categories:
   - System Programming
