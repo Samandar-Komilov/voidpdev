@@ -17,7 +17,7 @@ Bugun C dasturlash tilining muhim qismlaridan bo'lgan Strukturalar, Birlashmalar
 ## **👉 Struct**
 Struct bu user-defined data turi bo'lib, bir necha turdagi ma'lumotlarni bir turga jamlash uchun ishlatilishi mumkin. Struct xuddi Object oriented tillardagi Classlarga o'xshab ketadi, biroq ba'zi farqlari mavjud. Struct dasturda ishlatilishidan oldin e'lon qilinishi shart. Odatda `main()` dan ham tashqarida e'lon qilish maslahat beriladi:
 
-```
+```c
 // Maqolada Student misolida beriladi.
 struct Student {
     char name[100];
@@ -28,7 +28,7 @@ struct Student {
 Mazkur blok **struktura prototipi** deb ataladi va biz unga <u>instance</u> hosil qilmagunimizcha xotiradan joy olmaydi. 
 Buni biz shu struktura tipidagi o'zgaruvchi e'lon qilish orqali amalga oshirishimiz mumkin:
 
-```
+```c
 struct Student {
     char name[100];
     int matricula;
@@ -40,13 +40,13 @@ struct Student student3, student4;
 ```
 Struktura memberlariga **dot operator (.)** orqali access qilinadi:
 
-```
+```c
 student1.matricula;
 student3.name;
 ```
 ❗️ Struktura memberlariga declaration paytida qiymat berish mumkin emas:
 
-```
+```c
 struct Student {
    char name[100] = "Abdulxay"; 
    int matricula = 28;
@@ -54,7 +54,7 @@ struct Student {
 };
 ```
 Sababi yuqorida aytganimizdek, struct e'lon qilinganda xotiradan joy olmaydi toki shu turdagi o'zgaruvchi e'lon qilinmaguncha. O'zgaruvchi memberlarini initialize qilishning 3 xil usuli mavjud:
-```
+```c
 // 1-usul
 
 // String holatida strcpy ishlatilishi shart!
@@ -71,7 +71,7 @@ struct Student student3 = {.name = "Zaza", .matricula = 22};
 **- typedef**
 ⌛️ Ba'zida struktura nomi uzun bo'lib ketadi va bu vaqtni bekorga sarf qilishi mumkin. Shu holatda `typedef` keywordini ishlatish maqsadga muvofiq:
 
-```
+```c
 typedef struct Student {
     char name[100];
     int  matricula;
@@ -85,7 +85,7 @@ Bu yerda yangi `student_t` derived type bo'yicha o'zgaruvchi e'lon qilinmoqda.
 **- Nested structures**
 OOP mavjud tillarda Class ichida Class ochish mumkin bo'lgani kabi C da ham struct ichida struct ochish mumkin. Buning ham 2 xil usuli bor:
 
-```
+```c
 // 1. Embedded Nesting
 struct Wolves {
     char name[100];
@@ -111,13 +111,13 @@ struct Wolves {
 }
 ```
 Nested memberlarga access qilish ham dot operator yordamida amalga oshadi:
-```
+```c
 wolve1.team.no;
 wolve2.team.power;
 ```
 Nested holatida bir necha struktura alohida e'lon qilinsa-da, qiymat faqat Parent strukturaga beriladi:
 
-```
+```c
 struct Wolves wolve1 = {.name="Jahid", .team.no = 1, .team.power = 100};
 ```
 
@@ -125,7 +125,7 @@ struct Wolves wolve1 = {.name="Jahid", .team.no = 1, .team.power = 100};
 Biz boshqa turlarga qilganimiz kabi strukturaga ham pointer berishimiz mumkin. Bu aslida juda efficient usul bo'lib, funksiya argumentiga struct o'rniga uning pointeri kiritilishi buning bir misoli.
 Struktura pointeri yordamida struct memberlariga access qilish biroz murakkab (*ptr.field), shu sabab **arrow operator (->)** yordamida osonlashtirilgan:
 
-```
+```c
 struct Point {
     int x, y;
 };
@@ -141,7 +141,7 @@ printf("%d %d",ptr->x, ptr->y);
 O'z-o'ziga murojaat qiluvchi strukturalarni tushunish bizga Data Structures tomon yo'l ochadi. Chunki bu tushuncha ustiga Linked List, Tree, Graph kabi ma'lumot tuzilmalari qurilgan. 
 O'z-o'ziga murojaat qiluvchi - o'z turidagi boshqa o'zgaruvchilarning adresini/pointerini ham saqlaydigan struct o'zgaruvchilari. Buni misol bilan ko'rish yaxshiroq:
 
-```
+```c
 typedef struct Node {
     char name[50];
     int no;
@@ -176,7 +176,7 @@ Ko'rib turganimizdek, node1.next = &node2; orqali node2 ning adresi node1 da saq
 
 Keling bir misol ko'raylik. Berilgan rasmda quyidagi struct qurilgan:
 
-```
+```c
 struct student 
 {
        int id1;
@@ -194,7 +194,7 @@ Shunday qilib struct bo'yicha kirish qismi tugadi. Endi Union va Enum haqida fik
 ## **👉 Union**
 Union ham user-defined data type va syntax jihatdan 100% struct bilan bir xil:
 
-```
+```c
 typedef struct {
     int x;
     float y;
@@ -217,7 +217,7 @@ Union - select
 Ya'ni, strukturada bir necha memberlar "tanlanishi" mumkin, unionda esa faqat bittasi "tanlanadi".
 
 Strukturaning o'lchami undagi barcha memberlar o'lchamlari yig'indisiga teng bo'lsa, Unionda esa ularning eng kattasi. Buni isbotlash uchun yuqoridagi struct va unionning o'lchamlarini topamiz:
-```
+```c
 ...
 int main(){
     printf("Size of struct: %lu\n", sizeof(str_t));
@@ -236,7 +236,7 @@ bo'lsa, union uchun:
 ❓ Xo'sh, Union qanday hollarda ishlatiladi?
 Buni bir misol bilan tushuntiramiz. Tasavvur qiling, bir o'yin yasayapmiz va unda characterlar bor. Character odam bo'lishi ham robot bo'lishi ham mumkin. Agar u odam bo'lsa, uning shaxsiyati, agar robot bo'lsa ichidagi dasturi haqidagi ma'lumotlar bo'lishi kerak. Aynan shu qismda Union bizga kerak bo'ladi:
 
-```
+```c
 typedef struct {
     char *name;
     bool isRobot;
@@ -260,7 +260,7 @@ Demak union orqali biz xuddiki dropdown menu vazifasini C da bajaryapmiz. Bu usu
 ## **- Enum**
 Enumeration (yoxud perebor) user-defined data type bo'lib, o'zbek tilida "sanab chiqish, hisoblash" kabi ma'nolarda keladi. Ushbu data type integral konstantalardan iborat bo'ladi:
 
-```
+```c
 enum Size {
     Small,
     Medium,

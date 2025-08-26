@@ -29,7 +29,7 @@ C dasturlash tilida Dinamik xotiradan joy ajratish uchun `<stdlib.h>` kutubxonas
 ## - malloc()
 `malloc()` yoxud "memory allocation" funksiyasi belgilangan data type va o'lcham bo'yicha dinamik xotiradan joy ajratadi. Quyida bir misol ko'ramiz:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -69,7 +69,7 @@ Finally, ajratilgan joyning 1-baytiga nisbatan integer pointerni `ptr` o'zgaruvc
 ![malloc() and calloc()](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yl81c9gfd10g73gtxsm2.png)
 Quyida bir misol ko'ramiz:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -92,7 +92,7 @@ Haqiqatan ham e'tibor bersak, bu funksiyada `n` va `sizeof(int)` vergul bilan aj
 ## - free()
 `free()` funksiyasi dinamik xotiradan ajratilgan joyni bo'shatish uchun ishlatiladi. Yuqoridagi 2 funksiya ham o'zi band qilgan joyni avtomatik tarzda bo'shatmagani tufayli bu funksiyaga ehtiyoj sezamiz. Ayniqsa, cheklangan xotira bilan ishlashda bu funksiya juda qo'l keladi.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
  
@@ -120,7 +120,7 @@ Ko'rinib turibdiki, `free()` yagona argument - ajratilgan xotiraga nisbatan poin
 ## - realloc()
 `realloc()` yoxud "re-allocation" funksiyasi oldin `malloc()` yoki `calloc()` yordamida ajratilgan xotiraning taqsimotini dinamik ravishda o'zgartirish uchun ishlatiladi. Masalan oldin 4 ta integer uchun joy ajratilgan edi, endi esa 6 ta uchun ajratishimiz kerak. Quyida mazkur misolni ko'ramiz:
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
  
@@ -155,7 +155,7 @@ int main()
 ## **Qo'shimcha: Dynamic Strings!**
 Odatda string ham static holatda bo'ladi, ammo biz uni `malloc()` funksiyasi yordamida boshqarishimiz mumkin. Bu ham xuddi yuqorida ko'rgan dinamik array bilan bir xil, sababi string aslida "charlar arrayi" hisoblanadi. 
 Shuningdek, stringni copy qilish uchun biz `strcpy()` ni ishlatar edik. Dinamik string uchun esa `strdup()` ishlatiladi:
-```
+```c
 #include <string.h>
 
 ...

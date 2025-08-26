@@ -44,7 +44,7 @@ Let's now consider each of these directives in detail with many subtleties.
 
 A **macro** is a piece of code in a program that is replaced by the value of the macro. Macro is defined by #define directive. Whenever a macro name is encountered by the compiler, it replaces the name with the definition of the macro. We use it always, you know, when we declare static arrays like below:
 
-```
+```c
 #include <stdio.h>
 #define MAX 100    // Macro
 
@@ -62,7 +62,7 @@ An **object-like macro** is a simple identifier that will be replaced by a code 
 
 **1.2. Chain Macros**
 Macros inside macros are termed as **chain macros**. In chain macros first of all parent macro is expanded then the child macro is expanded. Below is the illustration of a Chain Macro:
-```
+```c
 #include <stdio.h>
 #define INSTAGRAM FOLLOWERS
 #define FOLLOWERS 500
@@ -78,7 +78,7 @@ int main()
 
 **1.3. Multi-line Macros**
 An object-like macro could have a multi-line. So to create a multi-line macro you have to use backslash-newline. Below is the illustration of multiline macros:
-```
+```c
 #include <stdio.h>
 #define ELE 1, \
             2, \
@@ -100,7 +100,7 @@ int main()
 **1.4. Function-like Macros**
 These macros are the same as a function call. It replaces the entire code instead of a function name. **Pair of parentheses immediately after the macro name is necessary.** If we put a space between the macro name and the parentheses in the macro definition, then the macro <u>will not work</u>. A function-like macro is only lengthened if and only if its name appears with a pair of parentheses after it. If we don’t do this, the function pointer will get the address of the real function and lead to a **_syntax error_**.
 Below is the illustration of function-like macros:
-```
+```c
 #include <stdio.h>
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 
@@ -122,7 +122,7 @@ This type of preprocessor directive tells the compiler to include a file in the 
 
 **1. Standard Header Files**
 The standard header files contain definitions of pre-defined functions like `printf()`, `scanf()`, etc. These files must be included to work with these functions. 
-```
+```c
 #include <file_name>
 
 // < and > brackets tell the compiler to look for standard directory
@@ -130,7 +130,7 @@ The standard header files contain definitions of pre-defined functions like `pri
 
 **2. User-defined Header Files**
 When a program becomes very large, it is a good practice to divide it into smaller files and include them whenever needed. These types of files are user-defined header files. These files can be included as:
-```
+```c
 #include "file_name"
 
 // The double quotes ( ” ” ) tell the compiler to search for the header file in the source file’s directory.
@@ -147,7 +147,7 @@ It is a type of directive that helps to compile a specific portion of the progra
 - `#endif` Directive
 
 Syntax:
-```
+```c
 #ifdef macro_name
     statement1;
     statement2;
@@ -169,7 +169,7 @@ Actually, there is 2 more derivatives are available, but as they are not commonl
 That's all about Preprocessors and Macros. Now, let's have fun by learning some gripping facts about them.
 
 1️⃣ Macros can take function like arguments, the arguments are <u>not checked for data type</u>. For example, the following macro `INCREMENT(x)` can be used for `x` of any data type:
-```
+```c
 #include <stdio.h>
 #define INCREMENT(x) ++x
 int main()
@@ -185,7 +185,7 @@ int main()
 ```
 
 2️⃣ The macro arguments are <u>not evaluated</u> before macro expansion. For example, consider the following program:
-```
+```c
 #include <stdio.h>
 #define MULTIPLY(a, b) a* b
 
@@ -199,7 +199,7 @@ int main()
 // Output: 16
 ```
 This problem can be solved as shown below:
-```
+```c
 #include <stdio.h>
 #define MULTIPLY(a, b) (a) * (b)
 
@@ -214,7 +214,7 @@ int main()
 ```
 
 3️⃣ The tokens passed to macros can be concatenated using operator `##` called Token-Pasting operator:
-```
+```c
 #include <stdio.h>
 #define merge(a, b) a##b
 int main()
@@ -226,7 +226,7 @@ int main()
 ```
 
 4️⃣ A token passed to macro can be converted to a string literal by using `#` before it:
-```
+```c
 #include <stdio.h>
 #define get(a) #a
 
@@ -242,7 +242,7 @@ Output: Memati
 5️⃣ The macros with arguments should be avoided as they cause problems sometimes. And Inline functions should be preferred as there is type checking parameter evaluation in inline functions. From C99 onward, inline functions are supported by C language also. 
 
 For example consider the following program. From first look the output seems to be 1, but it produces 36 as output.
-```
+```c
 #include <stdio.h>
 
 #define square(x) x* x
@@ -257,7 +257,7 @@ int main()
 // Output: 36
 ```
 But we can write this code as follows to get the expected result:
-```
+```c
 #include <stdio.h>
 
 #define square(x) (x * x)
@@ -273,7 +273,7 @@ int main()
 ```
 
 6️⃣ There are some standard macros which can be used to print program file `__FILE__`, Date of compilation `__DATE__`, Time of compilation `__TIME__` and Line Number in C code `__LINE__`. Below is an example:
-```
+```c
 #include <stdio.h>
 
 int main()

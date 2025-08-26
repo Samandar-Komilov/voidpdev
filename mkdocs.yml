@@ -1,6 +1,6 @@
 site_name: voidpdev
 site_url: https://voidp.dev/
-repo_url: https://github.com/Samandar-Komilov/
+# repo_url: https://github.com/Samandar-Komilov/
 theme:
   name: material
   custom_dir: overrides
@@ -21,7 +21,6 @@ extra_css:
 
 nav:
   - Home: index.md
-  - About: about.md
   - Projects:
       - Overview: projects/overview.md
       - Nginx Clone: 
@@ -39,6 +38,10 @@ nav:
         - Horizontal Scaling: projects/url_shortener/v8.md
       - WSGI Framework: 
         - About: projects/oberoon/oberoon.md
+  - Research:
+    - System Programming: 
+      - Fluent C:
+        - Error Handling: research/systemsp/fluentc/ch01.md
   - Blog: blog/index.md
 
 
@@ -58,6 +61,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - admonition
   - pymdownx.details
   - attr_list
