@@ -14,6 +14,7 @@ theme:
     - content.code.copy
     - content.code.select
     - content.code.annotate
+    - navigation.footer
 
 extra_css:
   - stylesheets/extra.css
@@ -28,8 +29,16 @@ nav:
         - Journey: projects/nginx_clone/journey.md
       - URL Shortener: 
         - About: projects/url_shortener/url_shortener.md
-        - Strategy: projects/url_shortener/strategy.md
-      - WSGI Framework: projects/oberoon.md
+        - In-memory Service: projects/url_shortener/v1.md
+        - DB Persistency: projects/url_shortener/v2.md
+        - Shortcode Generation: projects/url_shortener/v3.md
+        - Caching: projects/url_shortener/v4.md
+        - Rate Limiting: projects/url_shortener/v5.md
+        - Analytics: projects/url_shortener/v6.md
+        - Vertical Scaling: projects/url_shortener/v7.md
+        - Horizontal Scaling: projects/url_shortener/v8.md
+      - WSGI Framework: 
+        - About: projects/oberoon/oberoon.md
   - Blog: blog/index.md
 
 
@@ -49,3 +58,9 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
