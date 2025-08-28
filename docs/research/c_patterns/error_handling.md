@@ -109,7 +109,7 @@ int searchFileForKeywords(char* buffer, FILE *fp){
 This is much better now, but still not perfect. The main function is still doing many `if` checks which is making function long. 
 
 **Guard Clause.** To solve this, we need to check mandatory pre-conditions first and if they are not met, return error info immediately:
-```c
+```c hl_lines="7 11"
 int parseFile(char* filename){
     int retval = ERROR;
     FILE *fp = 0;
@@ -134,7 +134,7 @@ int parseFile(char* filename){
 ```
 
 **Samurai Principle.** Caller can sometimes omit the error checks of your function. If you know that the error can't be handled and there is no point to return to the caller, simply abort the program:
-```c
+```c hl_lines="6"
 int parseFile(char* filename){
     int retval = ERROR;
     FILE *fp = 0;
@@ -157,7 +157,7 @@ int parseFile(char* filename){
 ```
 
 **Goto Error Handling.** You might still have nested ifs, which is complicating resource cleanup as in every `if` condition, you must cleanup the resource if the result is not successful. In that case, even mostly discouraged, we can use `goto` to stop repeating the same code, instead jumping to a specific code block that cleans up the resources:
-```c
+```c hl_lines="18 19 20 21"
 int parseFile(char* filename){
     int retval = ERROR;
     FILE *fp = 0;
@@ -177,13 +177,13 @@ int parseFile(char* filename){
 
 error_malloc:
     fclose(fp);
-error fopen:
+error_fopen:
     return retval;
 }
 ```
 
 **Cleanup Record.** Even though `goto` gets the job done, it is highly discouraged still. And if you don't want to use `goto` in your code, you may choose this approach: label the results of each functions used in the error handling code, run the main logic only if they all succeed, and check for each failure case using ifs:
-```c
+```c hl_lines="14 15 16 17"
 int parseFile(char* filename){
     int retval = ERROR;
     FILE *fp = 0;

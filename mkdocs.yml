@@ -39,9 +39,11 @@ nav:
       - WSGI Framework: 
         - About: projects/oberoon/oberoon.md
   - Research:
-    - System Programming: 
-      - Fluent C:
-        - Error Handling: research/systemsp/fluentc/ch01.md
+    - C Patterns:
+      - Error Handling: research/c_patterns/error_handling.md
+      - Memory Management: research/c_patterns/memory_management.md
+    - Network Programming:
+      - Beej's Guide Reference: research/networkp/beejs_reference.md
   - Blog: blog/index.md
 
 
