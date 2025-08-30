@@ -305,7 +305,7 @@ int recv(
 !!! warning
     These 2 functions are `blocking`. To achieve efficiency, use multithreading or concurrency using event driven structures.
 
-We already used these functions in this project and also in [RestaCore](github.com/Samandar-Komilov/restacore), so we don't necessarily need examples.
+We already used these functions in this project and also in [RestaCore](https://github.com/Samandar-Komilov/restacore), so we don't necessarily need examples.
 
 
 ### `sendto()` and `recvfrom()` - Talk to me, but in DGRAM style!
