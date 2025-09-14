@@ -8,6 +8,8 @@ tags:
     - python
 ---
 
+
+
 This tutorial is designed for classroom use with students learning to build Telegram bots using aiogram 3.
 
 <!-- more -->
