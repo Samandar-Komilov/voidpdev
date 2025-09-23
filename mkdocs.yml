@@ -23,22 +23,19 @@ nav:
   - Home: index.md
   - Projects:
       - Overview: projects/overview.md
-      - Nginx Clone: 
-        - About: projects/nginx_clone/nginx_clone.md
-        - Journey: projects/nginx_clone/journey.md
-      - URL Shortener: 
-        - About: projects/url_shortener/url_shortener.md
-        - In-memory Service: projects/url_shortener/v1.md
-        - DB Persistency: projects/url_shortener/v2.md
-        - Shortcode Generation: projects/url_shortener/v3.md
-        - Caching: projects/url_shortener/v4.md
-        - Rate Limiting: projects/url_shortener/v5.md
-        - Analytics: projects/url_shortener/v6.md
-        - Vertical Scaling: projects/url_shortener/v7.md
-        - Horizontal Scaling: projects/url_shortener/v8.md
-      - WSGI Framework: 
+      - CServe: 
+        - About: projects/cserve/cserve.md
+        - Journey: projects/cserve/journey.md
+      - Oberoon: 
         - About: projects/oberoon/oberoon.md
+      - Gira: 
+        - About: projects/gira/gira.md
+  - Ideas & Inspirations:
+    - Traefik - cloud native modern web server: ideas/traefik/traefik.md
+    - JPRQ - reverse proxy: ideas/jprq/jprq.md
   - Research:
+    - System Design:
+      - URL Shortener: research/system_design/url_shortener.md
     - C Patterns:
       - Error Handling: research/c_patterns/error_handling.md
       - Memory Management: research/c_patterns/memory_management.md

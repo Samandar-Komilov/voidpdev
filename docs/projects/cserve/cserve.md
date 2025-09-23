@@ -1,12 +1,10 @@
 ---
-title: "About Nginx Clone"
-description: "About the nginx clone"
+title: "About CServe"
+description: "About the cserve project"
 date: 2025-06-30
 
 ---
 
-
-# Cserve - About
 
 CServe is a web server written in C. Inspired from nginx, and started with a huge motivation to learn network programming and system-level thinking. The project is divided into chapters, each of which focuses on a specific feature or technique. The chapters are ordered by difficulty level, starting with the basics and gradually increasing in complexity.  
 

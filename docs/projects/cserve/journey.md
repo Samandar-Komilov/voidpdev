@@ -1,12 +1,10 @@
 ---
-title: "Nginx Clone Journey"
+title: "CServe Journey"
 description: "How we built the 1st version of our nginx clone, what problems we faced with and how we solved them."
 date: 2025-06-30
 
 ---
 
-
-# Cserve - Journey
 
 This is my (short) written story of how I built (at least initialized) the 1st version of the nginx clone.
 
