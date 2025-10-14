@@ -35,7 +35,7 @@ In this post we are gonna explore the standard `net/http` library internals - ho
 ### http.Request
 
 The most important construct in building web applications is `Request`, no doubt. When we built our own [Nginx clone](https://github.com/Samandar-Komilov/cserve) in C, we too defined that entity at first. For this reason, I believe it worth examining `http.Request` struct initially which is defined in the standard `net/http` library:
-```go
+```go title="net/http/server.go"
 type Request struct {
     Method string                 // HTTP method (GET, POST, PUT, etc.)
     URL *url.URL                  // URI being requested (for server requests) or the URL to access (for client requests)
@@ -58,7 +58,7 @@ The most striking point is that we don't necessarily need to parse the raw HTTP,
 ### http.ResponseWriter
 
 It's nice that HTTP request is parsed into `http.Request` construct automatically, with all necessary fields available. But how we return the response? I mean, we should somehow build the corresponding `http.Response` construct, isn't it? But how? Before answering the question, let's consider the `http.Response` struct:
-```go
+```go title="net/http/server.go"
 type Response struct {
     Status string             // Response Status, e.g. "200 OK"
 	StatusCode int            // Status Code in integer, e.g. 200
@@ -73,7 +73,7 @@ type Response struct {
 ```
 
 Perfect, should I build the response by hand? No, Go handles that for us, but partially. It creates the response object with basic fields, but lets us change it - using `http.ResponseWriter` interface. A `http.ResponseWriter` interface is used by an HTTP handler to construct an HTTP response. Let's look at its structure as well:
-```go
+```go title="net/http/server.go"
 type ResponseWriter interface {
     Header() Header
     Write([]byte) (int, error)
@@ -103,13 +103,13 @@ We analyzed the `Request` and `Response` constructs, learned how to send respons
 1. `http.Handle(pattern string, handler http.Handler)`  
     Registers a handler for the given URL pattern. But what does that **handler** mean? 
     A handler is any type that implements `http.Handler` interface. This interface is a core contract for anything that can handle HTTP requests. Its structure is as follows:
-    ```go
+    ```go title="net/http/server.go"
     type Handler interface {
         ServeHTTP(ResponseWriter, *Request)
     }
     ```
     The server calls `ServeHTTP()` method for each incoming request. You can implement it on structs for stateful behaviour, for example:
-    ```go
+    ```go title="main.go"
     type MyHandler struct {
         count int
     }
@@ -146,24 +146,89 @@ We analyzed the `Request` and `Response` constructs, learned how to send respons
 
 Although, it seems we are done, when we run the code nothing works. Well, it's natural - where does it know which port it is listening to? Every server application should listen at some specific port to accept requests and respond accordingly, but where is that? We have two choices at this point:
 
-1. `http.Serve(l net.Listener, handler http.Handler) error`: starts the HTTP server.
-    * This is a lower-level function that uses existing listeners like `net.Listen` or `tls.Listen`. We mostly use it for custom setups like non-TCP, custom ports or Unix sockets. Also we should manually configure TLS with `crypto/tls`, use with `*http.Server` for `Shutdown` method to enable graceful shutdown.
-    * However, we don't cover this right now. You can read my separate post about `net` library [here](https://voidp.dev/blog/) (soon...).
-2. `http.ListenAndServe(addr string, handler http.Handler) error`: starts the HTTP server.
-    * This is a higher-level function, it automatically creates a `net.Listener` and passes it to `http.Serve`. It is very simple, but not recommended for production setups as it lacks timeouts, graceful shutdown, etc. But for now, we can use it to continue our journey without focusing too deep on details.
-So, now our first API is complete:
-```go
-func hello(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Hello\n")
-}
+1. `http.Serve(l net.Listener, handler http.Handler) error`  
+    Starts the HTTP server. This is a lower-level function that uses existing listeners like `net.Listen` or `tls.Listen`. Here is a simple example:
+    ```go title="main.go" hl_lines="13"
+	listener, err := net.Listen("tcp", ":8080")
+	if err != nil {
+		fmt.Println("Error creating listener:", err)
+		return
+	}
+    log.Println("Listening on port 8080...")
+	defer listener.Close()
 
-func main() {
-	http.HandleFunc("/hello", hello)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello, World!")
+	})
 
-    fmt.Println("Listening on port 8090...")
-    http.ListenAndServe(":8090", nil)
+	http.Serve(listener, nil)
+    ```
+    We mostly use it for custom setups like non-TCP, custom ports or Unix sockets. Also we should manually configure TLS with `crypto/tls` (if we need HTTPS), use with `*http.Server` for `Shutdown` method to enable graceful shutdown.
+2. `http.ListenAndServe(addr string, handler http.Handler) error`  
+    Starts the HTTP server. This is a higher-level function, it automatically creates a `net.Listener` and passes it to `http.Serve`. Here is an example:
+    ```go title="main.go" hl_lines="9"
+    func hello(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hello\n")
+    }
+
+    func main() {
+        http.HandleFunc("/hello", hello)
+
+        fmt.Println("Listening on port 8090...")
+        http.ListenAndServe(":8090", nil)
+    }
+    ```
+    It is very simple, but not recommended for production setups as it lacks timeouts, graceful shutdown, etc. 
+
+    !!! note
+        These production-grade topics will be discussed in one of the upcoming posts.
+
+Well, what is happening under the hood of the `http.Serve` and `http.ListenAndServe`? Let's explore the source code of the first one:
+```go title="net/http/server.go" hl_lines="2"
+func Serve(l net.Listener, handler Handler) error {
+	srv := &Server{Handler: handler}
+	return srv.Serve(l)
 }
 ```
+Wait a second, what is it instantiating? `http.Server`, what is that? Is this the case in the second one, let's see:
+```go title="net/http/server.go" hl_lines="2"
+func ListenAndServe(addr string, handler Handler) error {
+	server := &Server{Addr: addr, Handler: handler}
+	return server.ListenAndServe()
+}
+```
+What is happening here? What is `http.Server`?
+
+### http.Server
+
+As its name suggests, this construct represents the base HTTP server for our server applications. Let's look at the structure of this construct:
+```go title="net/http/server.go"
+type Server struct {
+    Addr string                     // optionally specifies the TCP address (host:port) for the server to listen on, default ":http" (port 80)
+    Handler Handler                 // handler to invoke when request comes, http.DefaultServeMux if nil
+    TLSConfig *tls.Config           // optionally provides TLS configuration for using by ServeTLS or ListenAndServeTLS
+    ReadTimeout time.Duration       // maximum duration to read the entire request, including the body
+    ReadHeaderTimeout time.Duration // maximum duration to read the request headers
+    WriteTimeout time.Duration      // maximum duration to write the response
+    IdleTimeout time.Duration       // maximum duration to wait for the next request when keep-alive enabled
+    MaxHeaderBytes int              // controls the maximum number of bytes for the request headers' keys and values, including request line
+    HTTP2 *HTTP2Config              // HTTP/2 server configurations
+    // ...shortened
+}
+```
+We can create a new server application using solely this construct:
+```go
+srv := &http.Server{
+    Addr: ":8001",
+}
+
+err := srv.ListenAndServe()
+if err != nil {
+    log.Fatal(err)
+    return
+}
+```
+This server now listens on port 8001, with default multiplexer as handler and this is why when you send request to this server, it responds with 404. We'll discuss multiplexers later, but for now we can conclude that everything actually uses this construct when we write server applications. 
 
 
 ## 2. Request Lifecycle: Context
@@ -182,6 +247,15 @@ The authors decided not to add a new feature to the language, nor change the sig
 func someLogic(ctx context.Context, info string) (string, error){
     // some logic happens here
     return "", nil
+}
+```
+We can explore the structure of the `Context` interface:
+```go title="context/context.go"
+type Context interface {
+    Deadline() (deadline time.Time, ok bool)  // returns the time when work done on behalf of this context should be canceled
+    Done() <-chan struct{}                    // returns a channel that's closed when work done on behalf of this context should be canceled
+    Err() error                               // if Done() is closed, returns an error explaining why context canceled: e.g. DeadlineExceeded
+    Value(key any) any                        // returns the value associated with this context for key or nil
 }
 ```
 In addition to the `Context` interface, the `context` package also contains several factory and helper functions:
@@ -206,7 +280,137 @@ We're not going to dive into contexts now, but we'll use them in the upcoming ch
 
 ## 3. Routing and Middleware
 
+Typically, we have more than one handler in our HTTP server. When it receives a request, it must decide which handler should process that request based on its path and HTTP method. This decision making process is called **routing** or **request multiplexing**. To achieve this, standard library offers the following constructs:
+
+* `ServeMux`
+* `mux.ServeHTTP()`
+* `NewServeMux()`
+* `DefaultServeMux`
+* `mux.Handler()`
+* `mux.Handle()`
+* `mux.HandleFunc()`
+
+Before going deeper into multiplexers, let's consider a simple example on how we can use them:
+```go title="main.go" hl_lines="1"
+mux := http.NewServeMux()
+
+mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("hello"))
+})
+
+log.Println("Listening on port 8090...")
+err := http.ListenAndServe(":8090", mux)
+```
+As we can see, it is very similar to routers we have seen in FastAPI or aiogram, but we need [chi](https://go-chi.io/) or similar external library to fully achieve that behaviour. At least, we can register handlers into the router and serve all of the handlers registered to it with the server. Now, let's analyze what are these "mux"s deep down and how they work.
+
 ### Routing: How Multiplexers Work?
+
+The key construct to achieve this behaviour is `http.ServeMux`. It is an HTTP request multiplexer and it matches the URL of each incoming request against a list of registered patterns and calls the respective handler that most closely matches the pattern. Here is the structure of the construct:
+
+```go title="net/http/server.go"
+type ServeMux struct {
+    mu sync.RWMutex     
+    tree routingNode    
+    index routingIndex  
+    mux121 serveMux121  // for Go versions below 1.22, due to backward incompatible changes
+}
+```
+
+Basically, `http.ServeMux` is a struct that implements `http.Handler` interface, and therefore is also considered a handler. This is why when we call `http.ListenAndServe(addr, mux)`, the HTTP server calls `ServeHTTP()` method of the multiplexer. Here is the proof that it implements handler interface:
+```go title="net/http/server.go" hl_lines="13 15"
+func (mux *ServeMux) ServeHTTP(w ResponseWriter, r *Request) {
+	if r.RequestURI == "*" {
+		if r.ProtoAtLeast(1, 1) {
+			w.Header().Set("Connection", "close")
+		}
+		w.WriteHeader(StatusBadRequest)
+		return
+	}
+	var h Handler
+	if use121 {
+		h, _ = mux.mux121.findHandler(r)
+	} else {
+		h, r.Pattern, r.pat, r.matches = mux.findHandler(r)
+	}
+	h.ServeHTTP(w, r)
+}
+```
+We can clearly see that the multiplexer simply gets the request, finds the corresponding handler based on the pattern and calls the handler. But this process happens much faster than we think, because they used tree data structure to store patterns as key-value. If it were array or linked-list, it would be `O(n)` to find the pattern and therefore much slower.
+
+Well, the method `http.NewServeMux()` simply creates a new multiplexer. And earlier, we didn't specify the handler while initiating our `http.Server` construct and said that if gets the `DefaultServeMux` automatically. Here is the source code for these:
+
+```go title="net/http/server.go" hl_lines="2 6 7"
+func NewServeMux() *ServeMux {
+	return &ServeMux{}
+}
+
+// DefaultServeMux is the default [ServeMux] used by [Serve].
+var DefaultServeMux = &defaultServeMux
+var defaultServeMux ServeMux
+```
+
+Aha! So, when we create APIs with `http.Handle` and `http.HandleFunc`, they simple are registered to the default mux - empty multiplexer! Here is the source code for this:
+
+```go title="net/http/server.go" hl_lines="6 15"
+// Handle registers the handler for the given pattern in [DefaultServeMux].
+func Handle(pattern string, handler Handler) {
+	if use121 {
+		DefaultServeMux.mux121.handle(pattern, handler)
+	} else {
+		DefaultServeMux.register(pattern, handler)
+	}
+}
+
+// HandleFunc registers the handler function for the given pattern in [DefaultServeMux].
+func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	if use121 {
+		DefaultServeMux.mux121.handleFunc(pattern, handler)
+	} else {
+		DefaultServeMux.register(pattern, HandlerFunc(handler))
+	}
+}
+```
+
+If we want to use custom multiplexer for our APIs, the `http.ServeMux` struct has matching methods: `mux.Handle()` and `mux.HandleFunc()` which registers to the router we assigned, instead of the default:
+
+```go title="net/http/server.go" hl_lines="6 15"
+// Handle registers the handler for the given pattern.
+func (mux *ServeMux) Handle(pattern string, handler Handler) {
+	if use121 {
+		mux.mux121.handle(pattern, handler)
+	} else {
+		mux.register(pattern, handler)
+	}
+}
+
+// HandleFunc registers the handler function for the given pattern.
+func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
+	if use121 {
+		mux.mux121.handleFunc(pattern, handler)
+	} else {
+		mux.register(pattern, HandlerFunc(handler))
+	}
+}
+```
+
+As a conclusion, we state that multiplexers are one of the most vital element in the `net/http`'s request-response cycle. Even though newer technologies like [chi](https://go-chi.io/) enhanced the default functionality, the core logic stays the same. We can draw the conclusion diagram:
+``` mermaid
+sequenceDiagram
+    participant Client
+    participant Server as http.Server
+    participant Mux as http.ServeMux
+    participant Handler as Your Handler (implements ServeHTTP)
+
+    Client->>Server: sends HTTP request (e.g., GET /hello)
+    Server->>Mux: calls ServeHTTP(w, r)
+    alt r.RequestURI == "*"
+        Mux-->>Client: 400 Bad Request
+    else valid request
+        Mux->>Mux: findHandler(r)\n(tree traversal / pattern match)
+        Mux->>Handler: h.ServeHTTP(w, r)
+        Handler-->>Client: writes response via ResponseWriter
+    end
+```
 
 
 ## 4. HTTP Client and Transport Internals
