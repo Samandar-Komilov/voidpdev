@@ -19,15 +19,12 @@ In this post we are gonna explore the standard `net/http` library internals - ho
         - `http.Handle` and `http.HandleFunc`
         - `http.Handler` and `http.HandlerFunc`
         - `http.Serve` and `http.ListenAndServe`
-        <!-- - `http.Server` -->
+        - `http.Server`
     2. Request Lifecycle: Context
         - `request.Context()`
-    3. Routing and Middleware
+    3. Request Routing
         - `http.ServeMux`, `http.NewServeMux` and `http.DefaultServeMux`
-        - Middleware Composition
-    4. HTTP Client and Transport Internals
-        - `http.Client`, `http.NewRequest`, `Client.Do`, `http.Get/Post`
-        - `http.Transport`
+    4. Middleware
 
 
 ## 1. HTTP Server Basics
@@ -278,7 +275,7 @@ To conclude, the context is used to efficiently manage the request lifecycle. Ov
 We're not going to dive into contexts now, but we'll use them in the upcoming chapters and therefore we need to recall. You can read the complete article about contexts [in this post](https://www.digitalocean.com/community/tutorials/how-to-use-contexts-in-go).
 
 
-## 3. Routing and Middleware
+## 3. Request Routing
 
 Typically, we have more than one handler in our HTTP server. When it receives a request, it must decide which handler should process that request based on its path and HTTP method. This decision making process is called **routing** or **request multiplexing**. To achieve this, standard library offers the following constructs:
 
@@ -303,7 +300,7 @@ err := http.ListenAndServe(":8090", mux)
 ```
 As we can see, it is very similar to routers we have seen in FastAPI or aiogram, but we need [chi](https://go-chi.io/) or similar external library to fully achieve that behaviour. At least, we can register handlers into the router and serve all of the handlers registered to it with the server. Now, let's analyze what are these "mux"s deep down and how they work.
 
-### Routing: How Multiplexers Work?
+### How Multiplexers Work?
 
 The key construct to achieve this behaviour is `http.ServeMux`. It is an HTTP request multiplexer and it matches the URL of each incoming request against a list of registered patterns and calls the respective handler that most closely matches the pattern. Here is the structure of the construct:
 
@@ -312,7 +309,7 @@ type ServeMux struct {
     mu sync.RWMutex     
     tree routingNode    
     index routingIndex  
-    mux121 serveMux121  // for Go versions below 1.22, due to backward incompatible changes
+    mux121 serveMux121  // for Go versions above 1.22, due to backward incompatible changes
 }
 ```
 
@@ -351,7 +348,7 @@ var defaultServeMux ServeMux
 
 Aha! So, when we create APIs with `http.Handle` and `http.HandleFunc`, they simple are registered to the default mux - empty multiplexer! Here is the source code for this:
 
-```go title="net/http/server.go" hl_lines="6 15"
+```go title="net/http/server.go" hl_lines="4 6 13 15"
 // Handle registers the handler for the given pattern in [DefaultServeMux].
 func Handle(pattern string, handler Handler) {
 	if use121 {
@@ -373,7 +370,7 @@ func HandleFunc(pattern string, handler func(ResponseWriter, *Request)) {
 
 If we want to use custom multiplexer for our APIs, the `http.ServeMux` struct has matching methods: `mux.Handle()` and `mux.HandleFunc()` which registers to the router we assigned, instead of the default:
 
-```go title="net/http/server.go" hl_lines="6 15"
+```go title="net/http/server.go" hl_lines="4 6 13 15"
 // Handle registers the handler for the given pattern.
 func (mux *ServeMux) Handle(pattern string, handler Handler) {
 	if use121 {
@@ -392,6 +389,35 @@ func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Re
 	}
 }
 ```
+That's interesting. Logically we understood that each method is doing the same thing - adding a new pattern to the multiplexer. But why 2 different methods are being called: `register()` and `handle()`/`handleFunc()`?
+
+### Method Aware Routing (New in Go 1.22)
+
+Until Go 1.21, the standard library’s `ServeMux` could only match path patterns — not HTTP methods. This meant developers had to check the request method manually inside the handler:
+```go title="main.go" hl_lines="4 5"
+mux := http.NewServeMux()
+
+mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+        http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
+    w.Write([]byte("hello"))
+})
+```
+
+Starting from Go 1.22, the multiplexer natively supports method-aware routing by allowing HTTP methods to be included in the pattern itself, behaving closer to the third-party routers:
+```go title="main.go" hl_lines="3"
+mux := http.NewServeMux()
+
+mux.HandleFunc("POST /hello", func(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("hello"))
+})
+
+log.Println("Listening on port 8090...")
+http.ListenAndServe(":8090", mux)
+```
+This behaviour was achieved by implementing a new logic in pattern registration part. And this is the exact reason why there was `register()` and also `handle()`/`handleFunc()` and also why we have `mux121 serveMux121` member in the `http.ServeMux`.
 
 As a conclusion, we state that multiplexers are one of the most vital element in the `net/http`'s request-response cycle. Even though newer technologies like [chi](https://go-chi.io/) enhanced the default functionality, the core logic stays the same. We can draw the conclusion diagram:
 ``` mermaid
@@ -413,12 +439,202 @@ sequenceDiagram
 ```
 
 
-## 4. HTTP Client and Transport Internals
+## 4. Middleware
 
-### HTTP Client
+So far we've seen how to build a web server that routes requests to different functions depending on the requested URL. But what if we want execute some code before and after every request, regardless of the requested URL? For example, what if we wanted to log all requests made to the server, or allow all of our APIs to be callable cross-origin, or ensure that the current user has authenticated before calling the handler for a secure resource? We can do all of these things easily and efficiently using middlewares.
 
-### Transport
+A **middleware handler** is simply an `http.Handler` that wraps another `http.Handler` to do some pre- and/or post-processing of the request. It's called "middleware" because it sits in the middle between the Go web server and the actual handler.
 
+### How to use a Middleware?
+
+When we were discussing the `http.Handle` and `ServeHTTP()`, we accidentally came across the similar behaviour - counting the number of times request was sent. So, the following general pattern for middlewares should not be unfamiliar to us:
+```go title="main.go"
+func exampleMiddleware (next http.Handler) {
+    return http.HandlerFunc(func w http.ResponseWriter, r *http.Request) {
+        // Middleware logic here...
+        next.ServeHTTP(w, r)
+    }
+}
+```
+Essentially, the `exampleMiddleware` function accepts a `next` handler as a parameter, and it returns a closure which is also a handler. When this closure is executed, any code in the closure will be run and then the next handler will be called. Let's now consider a real example:
+```go title="main.go" hl_lines="3 5 14"
+func logMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println("before request handled:", time.Now())
+		next.ServeHTTP(w, r)
+		log.Println("after request handled:", time.Now())
+	})
+}
+
+func hello(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	fmt.Fprintf(w, "Hello, this is context: %v\n", ctx)
+}
+// ...
+http.Handle("GET /hello", logMiddleware(http.HandlerFunc(hello)))
+
+/*
+Output:
+before request handled: 2025-10-14 18:05:52.046396176 +0500 +05 m=+8.282500596
+after request handled: 2025-10-14 18:05:52.04659289 +0500 +05 m=+8.282697311
+*/
+```
+
+Now, this middleware is affecting a single endpoint. To apply it on all routes of this router, we can wrap the muxer itself with the middleware:
+```go title="main.go" hl_lines="12"
+package main
+
+...
+
+func main() {
+	mux := http.NewServeMux()
+
+	mux.Handle("GET /foo", http.HandlerFunc(fooHandler))
+	mux.Handle("GET /bar", http.HandlerFunc(fooHandler))
+
+	log.Println("listening on :8090...")
+	err := http.ListenAndServe(":8090", logMiddleware(mux))
+	log.Fatal(err)
+}
+
+/*
+Output:
+2025/10/14 18:16:21 before request handled: 2025-10-14 18:16:21.245247483 +0500 +05 m=+2.419752762
+2025/10/14 18:16:21 /foo executing fooHandler
+2025/10/14 18:16:21 after request handled: 2025-10-14 18:16:21.245304686 +0500 +05 m=+2.419809966
+2025/10/14 18:16:25 before request handled: 2025-10-14 18:16:25.954497224 +0500 +05 m=+7.129002494
+2025/10/14 18:16:25 /bar executing barHandler
+2025/10/14 18:16:25 after request handled: 2025-10-14 18:16:25.954559869 +0500 +05 m=+7.129065140
+*/
+```
+This works because multiplexer implements `http.Handler` interface, the middleware also implements the interface. This gives us a quick conclusion: we can use middlewares as chained. And that's true, we'll consider a real example to look closer on how middlewares are used and behave.
+
+### Real Life Scenario
+
+Let's consider the following example: a simple API with `admin/` route protected by authentication and logging middlewares, a perfect simulation of real life situations:
+
+```go title="main.go"
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "time"
+)
+
+func LoggingMiddleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        start := time.Now()
+        log.Printf("Started %s %s", r.Method, r.URL.Path)
+        next.ServeHTTP(w, r)
+        log.Printf("Completed %s in %v", r.URL.Path, time.Since(start))
+    })
+}
+
+func AuthMiddleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        token := r.Header.Get("Authorization")
+        if token != "Bearer secrettoken" {
+            // Early return — don't call next middleware or handler
+            http.Error(w, "Unauthorized", http.StatusUnauthorized)
+            return
+        }
+        next.ServeHTTP(w, r)
+    })
+}
+
+func RecoverMiddleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        defer func() {
+            if err := recover(); err != nil {
+                log.Printf("Recovered from panic: %v", err)
+                http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+            }
+        }()
+        next.ServeHTTP(w, r)
+    })
+}
+
+func Chain(h http.Handler, middlewares ...func(http.Handler) http.Handler) http.Handler {
+    for i := len(middlewares) - 1; i >= 0; i-- {
+        h = middlewares[i](h)
+    }
+    return h
+}
+
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "Welcome to the public homepage!")
+}
+
+func AdminHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "Welcome, admin user!")
+}
+
+func main() {
+    mux := http.NewServeMux()
+
+    mux.Handle("/", http.HandlerFunc(HomeHandler))
+
+    admin := http.HandlerFunc(AdminHandler)
+    mux.Handle("/admin", Chain(admin, AuthMiddleware, LoggingMiddleware))
+
+    global := Chain(mux, RecoverMiddleware)
+
+    log.Println("Listening on :8090")
+    if err := http.ListenAndServe(":8090", global); err != nil {
+        log.Fatal(err)
+    }
+}
+```
+This is a large code block, we'll discuss each function one by one:
+
+* `LoggingMiddleware` - This middleware logs every incoming request and measures how long it took to complete.
+* `AuthMiddleware` - This middleware protects sensitive routes such as `/admin`. It performs validation before passing the request forward. The “early return” mechanism ensures that once a middleware decides the request shouldn’t continue (e.g., authentication fails), execution of the remaining chain is completely halted.
+* `RecoverMiddleware` - This middleware ensures that if any handler or middleware panics, the server doesn’t crash. Wrapping the entire `ServeMux` with `RecoverMiddleware` provides global crash protection, ensuring one faulty handler doesn’t bring down the entire application.
+* `Chain` - this is our utility function to avoid chaining middlewares taking line too long. It builds the chain in reverse order so that the first middleware passed is the outermost layer (executed first), and the last one wraps closest to the final handler.
+* Main function and Routing - we are creating a new router and registering the global public handler first. Then we are registering the protected `admin/` handler with stacked middlewares, using `Chain()` utility function. Then we "redefined" the router by wrapping it with the recovery middleware and passed into `ListenAndServe()` function. 
+
+Here is a visualization of what happens when a request hits our protected `admin/` endpoint:
+
+``` mermaid
+sequenceDiagram
+    participant Client
+    participant Server as http.Server
+    participant Recover as RecoverMiddleware
+    participant Logging as LoggingMiddleware
+    participant Auth as AuthMiddleware
+    participant Handler as AdminHandler
+
+    Client->>Server: GET /admin
+    Server->>Recover: ServeHTTP()
+    Recover->>Logging: ServeHTTP()
+    Logging->>Auth: ServeHTTP()
+    Auth->>Auth: Validate Authorization Header
+    alt Invalid Token
+        Auth-->>Client: 401 Unauthorized
+    else Valid Token
+        Auth->>Handler: ServeHTTP()
+        Handler-->>Client: 200 OK (Welcome, admin user!)
+        Logging-->>Recover: log request duration
+        Recover-->>Server: done
+    end
+```
+
+---
+
+## Conclusion
+
+We discussed the standard `net/http` library's most important server side components so far. I hope it helps us to understand what happens under the hood of request-response cycle, why we need contexts, how routing works and how middlewares are structured and used. 
+
+There is always more to consider, but I guess this is enough for the post. In the upcoming posts we are gonna explore:
+
+* `net/http` library client side components: `http.Client`, `http.Transport`
+* `net/http` library server side deeper: TLS configs, streaming responses, etc.
+* `net` library and its low level functionality
+* websockets and gRPC
+
+There is always more. Anyways, thanks for your attention!
 
 ---
 
@@ -426,5 +642,7 @@ sequenceDiagram
 
 - [Official Go net/http library documentation](https://pkg.go.dev/net/http)
 - [Go By Example - HTTP related sections](https://gobyexample.com/http-server)
-- [Learning Go - An Idiomatic Approach](https://www.amazon.com/Learning-Go-Idiomatic-Real-World-Programming/dp/1492077216) by Jon Bodner
 - [How to Use Contexts in Go by DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-use-contexts-in-go)
+- [Making and Using HTTP Middleware in Go by Alex Edwards](https://www.alexedwards.net/blog/making-and-using-middleware)
+- [Learning Go - An Idiomatic Approach by Jon Bodner](https://www.amazon.com/Learning-Go-Idiomatic-Real-World-Programming/dp/1492077216)
+- [Network Programming With Go by Adam Woodbeck](https://www.amazon.com/Network-Programming-Go-Adam-Woodbeck/dp/1718500882)
