@@ -23,6 +23,7 @@ nav:
   - Home: index.md
   - Projects:
       - Overview: projects/overview.md
+      - Ideas: projects/ideas/overview.md
       - CServe: 
         - About: projects/cserve/cserve.md
         - Journey: projects/cserve/journey.md
@@ -30,9 +31,6 @@ nav:
         - About: projects/oberoon/oberoon.md
       - Gira: 
         - About: projects/gira/gira.md
-  - Ideas & Inspirations:
-    - Traefik - cloud native modern web server: ideas/traefik/traefik.md
-    - JPRQ - reverse proxy: ideas/jprq/jprq.md
   - Research:
     - System Design:
       - URL Shortener: research/system_design/url_shortener.md
