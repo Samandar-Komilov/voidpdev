@@ -32,19 +32,20 @@ nav:
       - Gira: 
         - About: projects/gira/gira.md
   - Research:
-    - System Design:
-      - URL Shortener: research/system_design/url_shortener.md
-    - Network Programming:
-      - Beej's Guide Reference: research/networkp/beejs_reference.md
-    - Linux:
-      - Big Picture and Basic Commands: research/linux/big_picture_basic_commands.md
-      - How Linux Kernel Boots: research/linux/how_kernel_boots.md
-    - C Patterns:
-      - Error Handling: research/c_patterns/error_handling.md
-      - Memory Management: research/c_patterns/memory_management.md
+    - C Language:
+      - Network Programming: research/clang/beejs_reference.md
+      - Memory Management Patterns: research/clang/memory_management.md
+      - Error Handling Patterns: research/clang/error_handling.md
+    - Go Language:
+      - Path: research/golang/path.md
     - Rust Language:
       - Common Concepts: research/rust/common_concepts.md
       - Ownership and Borrowing: research/rust/ownership_borrowing.md
+    - Linux:
+      - Big Picture and Basic Commands: research/linux/big_picture_basic_commands.md
+      - How Linux Kernel Boots: research/linux/how_kernel_boots.md
+    - System Design:
+      - URL Shortener: research/system_design/url_shortener.md
   - Blog: blog/index.md
 
 
