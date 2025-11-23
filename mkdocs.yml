@@ -15,6 +15,7 @@ theme:
     - content.code.select
     - content.code.annotate
     - navigation.footer
+    # - navigation.tabs
 
 extra_css:
   - stylesheets/extra.css
@@ -46,6 +47,8 @@ nav:
       - How Linux Kernel Boots: research/linux/how_kernel_boots.md
     - System Design:
       - URL Shortener: research/system_design/url_shortener.md
+    - Discrete Math:
+      - Definitions: research/discrete_math/definitions.md
   - Blog: blog/index.md
 
 
