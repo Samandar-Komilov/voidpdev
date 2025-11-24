@@ -38,18 +38,53 @@ Now, role definition seems tricky, because it feels like simply making the behav
 So, you must remove time to clearly see if its a behaviour or role. Because behaviour is time-dependent.
 
 !!! example "Strict Test"
-    Remove all verbs that imply change, action or causation. If the sentence still holds the meaning - role. If not - behaviour.
+    At this point, you might have a question: **how do I know if I should define the object by its form or its role in a system?**
+
+    You must ask the following questions to identify:  
+    1. **Is this object fundamentally identified by its internal structure?** E.g. binary string, tuple, graph, HTTP request. These make sense by their form, shape and components.
+
+    2. **Is this object fundamentally identified by its position in a system?** E.g. client, server, money, charger. These make sense inside a system.
+
+    If neither (1) nor (2) works, you picked an object that cannot be defined with this framework. You might skip it.
+
+!!! question "How to Identify the System?"
+    Role definition requires us to define the object by its system. But how do I know what system it participates? Use the following 3-step method:
+
+    1. **This thing participates in what?**  
+        - pen -> writing system
+        - lamp -> illumination system
+        - charger -> energy-transfer system
+        - money -> exchange system
+    2. **Identify the abstract system, not the real-world usage.**  
+        - ❌ A pen is used to write on paper.
+        - ✅ A pen is an instrument in a writing system.
+        - ❌ Money is used to buy goods.
+        - ✅ Money is the unit of account in an exchange system.
+    3. **Identify the object's role in the system.**   
+        - pen = ink-depositor
+        - pencil = graphite-depositor
+        - eraser = mark-remover
+        - bag = portable container
+    
+    Here is a simple decision tree:
+    ```txt
+    Does identity come from internal structure?
+        → Yes: FORM definition.
+        → No:
+    Does identity come from position in a larger system?
+        → Yes: ROLE definition.
+        → No: Object not definable in this framework.
+    ```
+
 
 !!! tip "Template for Writing Definitions"
     An object X is called `<the_term_being_defined>` provided it satisfies `<conditions>`.
 
-No proofs. No descriptions. Pure definitions.
+Definitions are not descriptions. Definitions are not theorems. They are words used to purely identify an object by its identity, not behaviour.
 
 ---
 
 ## Definition Exercises
-
-### From Book
 
 1. Define the following relations about integers using natural number's definition:
     - less than (<)
@@ -69,9 +104,6 @@ No proofs. No descriptions. Pure definitions.
     - homophone
 9. Define a palindrome string.
 10. Define a prime number.
-
-### General
-
 11. Define a pen.
 12. Define a pencil.
 13. Define a eraser.
@@ -80,51 +112,38 @@ No proofs. No descriptions. Pure definitions.
 16. Define a bag.
 17. Define a charger.
 18. Define a lamp.
-19. Define a carpet.
-20. Define a money.
-21. Define a debit card.
-22. Define a flag.
-23. Define a country.
-24. Define a car.
-25. Define a tree (natural).
-26. 
-27. 
-28. 
-29. 
-30. 
-
-### Computer Science
-
-31. Define an IP address.
-32. Define a port number.
-33. Define a network packet.
-34. Define a client (in a client–server model).
-35. Define a server.
-36. Define a TCP connection.
-37. Define an HTTP request.
-38. Define an HTTP response.
-39. Define a URL path.
-40. Define a header field (in HTTP).
-41. Define a database table.
-42. Define a row (tuple) in a database table.
-43. Define a column (attribute) in a database table.
-44. Define a record identifier.
-45. Define a foreign key.
-46. Define a query.
-47. Define a result set.
-48. Define an index (in databases).
-49. Define a key–value pair.
-50. Define a JSON object.
-51. Define a state of a program.
-52. Define a state transition.
-53. Define a process (OS process).
-54. Define a thread.
-55. Define a file.
-56. Define a directory.
-57. Define a configuration parameter.
-58. Define a log entry.
-59. Define a timestamp.
-60. Define a version number.
+19. Define a money.
+20. Define a flag.
+21. Define an IP address.
+22. Define a port number.
+23. Define a network packet.
+24. Define a client (in a client–server model).
+25. Define a server.
+26. Define a TCP connection.
+27. Define an HTTP request.
+28. Define an HTTP response.
+29. Define a URL path.
+30. Define a header field (in HTTP).
+31. Define a database table.
+32. Define a row (tuple) in a database table.
+33. Define a column (attribute) in a database table.
+34. Define a record identifier.
+35. Define a foreign key.
+36. Define a query.
+37. Define a result set.
+38. Define an index (in databases).
+39. Define a key–value pair.
+40. Define a JSON object.
+41. Define a state of a program.
+42. Define a state transition.
+43. Define a process (OS process).
+44. Define a thread.
+45. Define a file.
+46. Define a directory.
+47. Define a configuration parameter.
+48. Define a log entry.
+49. Define a timestamp.
+50. Define a version number.
 
 ---
 
@@ -137,8 +156,17 @@ No proofs. No descriptions. Pure definitions.
 5. Say we have a polygon with `n` with lengths `p_n`. The perimeter of the polygon is the sum of all sides of it: `S_p = p_1 + p_2 + ... + p_n`.
 6. Suppose `A`, `B`, `C` are points in the plane. We say `C` is between `A` and `B` provided that `AC + CB = AB`. Even if `A` and `B` are the same point, then `C` must be the same point as well. 
 7. Suppose we have a line segment `AB`. The midpoint `M` of a line segment is the one satisfying `AM + BM = AB` and `AM = BM`.
-8. 
+8. A person `T` is called teenager iff their age `A` satisfies condition `13 <= A <= 19`.
 9. A string `S` is called palindrome iff the it is read the same in both directions. 
 10. An integer `p` is called prime provided that `p > 1` and the only positive divisors of `p` are 1 and `p`.
 
-11. 
+11. A pen is an ink-depositor instrument in a writing system.
+12. A pencil is a graphite-depositor instrument in a writing system.
+13. An eraser is a mark-remover instrument in a writing system.
+14. A book is a finite sequence of pages bound into a single physical unit.
+15. A copybook is a finite sequence of blank pages bound into a single physical unit.
+16. A bag is a designated portable container in a container system.
+17. A charger is a device designated as the energy-source endpoint in an energy-transfer system.
+18. A lamp is the designated light-emission component of an illumination system.
+19. Money is the designated unit of account in an exchange system.
+20. A flag is a designated identity marker within a sign system.
