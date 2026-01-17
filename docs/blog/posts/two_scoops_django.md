@@ -5,7 +5,8 @@ date: 2025-10-11
 categories:
   - Python
 tags:
-    - django
+    - Python
+    - Django
 ---
 
 My conslusions on reading the book, usages of best-practices and possible problems to avoid.

@@ -5,8 +5,8 @@ date: 2025-05-05
 categories:
   - Systems Thinking
 tags:
-    - c
-    - computer networking
+    - C
+    - Network Programming
 ---
 
 You want to build your own web server in C? Then there is no way but to check out Beej's Guide!

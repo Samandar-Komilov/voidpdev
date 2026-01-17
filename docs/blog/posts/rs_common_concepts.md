@@ -2,10 +2,11 @@
 title: "Introduction to Rust: Common Concepts"
 description: "Rust's common features which can be found in any other language."
 date: 2026-01-16
+comments: true
 categories:
-  - Rust
+    - Rust
 tags:
-    - rust
+    - Rust
 ---
 
 Rust's common features which can be found in any other language.

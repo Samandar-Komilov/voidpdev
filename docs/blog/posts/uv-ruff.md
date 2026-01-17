@@ -5,7 +5,8 @@ date: 2025-07-09
 categories:
   - Python
 tags:
-  - tooling
+  - Python
+  - Tooling
 ---
 
 

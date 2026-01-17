@@ -18,6 +18,6 @@ Projects I participated so far:
 
 Personal OSS and research projects:
 
-- [CServe](./cserve/cserve.md) - Async Web Server inspired from **Nginx**
-- [Oberoon](./oberoon/oberoon.md) - WSGI framework inspired from **Flask**
-- [Gira](./gira/gira.md) - Real time task management system inspired from **Jira**
+- [CServe](./cserve.md) - Async Web Server inspired from **Nginx**
+- [Oberoon](./oberoon.md) - WSGI framework inspired from **Flask**
+- [Gira](./gira.md) - Real time task management system inspired from **Jira**

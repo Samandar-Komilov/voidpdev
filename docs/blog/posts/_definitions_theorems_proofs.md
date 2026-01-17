@@ -5,7 +5,8 @@ date: 2025-11-24
 categories:
   - Systems Thinking
 tags:
-    - discrete math
+    - Systems Thinking
+    - Discrete Math
 ---
 
 Introduction to Proof-based Thinking: let's talk about defining objects, making theorems about and proving them.

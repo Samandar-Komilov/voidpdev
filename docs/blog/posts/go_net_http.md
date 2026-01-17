@@ -5,8 +5,7 @@ date: 2025-10-14
 categories:
   - Go language
 tags:
-    - system programming
-    - computer networking
+    - Network Programming
 ---
 
 

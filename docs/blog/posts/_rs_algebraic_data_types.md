@@ -5,7 +5,9 @@ date: 2026-01-17
 categories:
   - Rust
 tags:
-    - discrete math
+    - Rust
+    - Discrete Math
+    - Systems Thinking
 ---
 
 Rust has structs and enums just like in C or Go. But did you know they actually are algebraic data types and especially important in Rust?

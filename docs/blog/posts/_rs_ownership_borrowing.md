@@ -5,7 +5,8 @@ date: 2026-01-20
 categories:
   - Rust
 tags:
-    - discrete math
+    - Rust
+    - Discrete Math
 ---
 
 Did you know, Rust's memory model is based on invariants and a strict compiler which brutally checks the invariants?

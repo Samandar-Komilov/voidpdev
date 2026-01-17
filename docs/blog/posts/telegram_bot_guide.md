@@ -5,7 +5,8 @@ date: 2025-09-14
 categories:
     - Python
 tags:
-    - aiogram
+    - Python
+    - Aiogram
 ---
 
 This tutorial is designed for classroom use with students learning to build Telegram bots using aiogram 3.

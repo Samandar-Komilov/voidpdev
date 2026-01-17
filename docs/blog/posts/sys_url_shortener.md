@@ -5,7 +5,7 @@ date: 2025-11-24
 categories:
   - System Design
 tags:
-    - system design
+    - System Design
 ---
 
 How to build a scalable URL shortener? Let's do a research from Alex Xu's book.

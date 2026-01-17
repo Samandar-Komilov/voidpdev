@@ -4,9 +4,6 @@ description: "What happens if a software engineer starts interesting Geoinformat
 date: 2025-11-30
 categories:
   - GIS
-tags:
-    - postgres
-    - geography
 ---
 
 What happens if a software engineer starts interesting Geoinformatics? He starts with bare bones, such as PostGIS!

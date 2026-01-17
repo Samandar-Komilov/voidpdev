@@ -4,10 +4,6 @@ description: "My quick research on how React works under the hood, as I felt so 
 date: 2025-07-12
 categories:
   - Frontend
-tags:
-  - js
-  - react
-  - fundamentals
 ---
 
 

@@ -5,7 +5,7 @@ date: 2025-06-01
 categories:
   - Linux
 tags:
-    - linux
+    - Linux
 ---
 
 Mastering any skill requires to start from scratch. Let's do the same with Linux: ls -la!

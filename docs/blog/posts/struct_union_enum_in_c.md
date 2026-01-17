@@ -5,7 +5,7 @@ date: 2023-07-14
 categories:
   - C language
 tags:
-  - fundamentals
+  - C
 ---
 
 
