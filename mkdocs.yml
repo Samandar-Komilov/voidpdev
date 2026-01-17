@@ -32,26 +32,26 @@ nav:
         - About: projects/oberoon/oberoon.md
       - Gira: 
         - About: projects/gira/gira.md
-  - Research:
-    - Discrete Math:
-      - Definitions: research/discrete_math/definitions.md
-    - C Language:
-      - Network Programming: research/clang/beejs_reference.md
-      - Memory Management Patterns: research/clang/memory_management.md
-      - Error Handling Patterns: research/clang/error_handling.md
-    - Go Language:
-      - Path: research/golang/path.md
-    - Rust Language:
-      - Common Concepts: research/rust/common_concepts.md
-      - Data Structures and Generics: research/rust/data_structures_and_generics.md
-      - Ownership and Borrowing: research/rust/ownership_borrowing.md
-    - Linux:
-      - Big Picture and Basic Commands: research/linux/big_picture_basic_commands.md
-      - How Linux Kernel Boots: research/linux/how_kernel_boots.md
-    - System Design:
-      - URL Shortener: research/system_design/url_shortener.md
-    - GIS:
-      - PostGIS Basics: research/gis/postgis_intro.md
+  # - Research:
+    # - Discrete Math:
+    #   - Definitions: research/discrete_math/definitions.md
+    # - C Language:
+    #   - Network Programming: research/clang/beejs_reference.md
+    #   - Memory Management Patterns: research/clang/memory_management.md
+    #   - Error Handling Patterns: research/clang/error_handling.md
+    # - Go Language:
+    #   - Path: research/golang/path.md
+    # - Rust Language:
+    #   - Common Concepts: research/rust/0_common_concepts.md
+    #   - Algebraic Data Types: research/rust/1_algebraic_data_types.md
+    #   - Ownership and Borrowing: research/rust/2_ownership_borrowing.md
+    # - Linux:
+    #   - Big Picture and Basic Commands: research/linux/big_picture_basic_commands.md
+    #   - How Linux Kernel Boots: research/linux/how_kernel_boots.md
+    # - System Design:
+    #   - URL Shortener: research/system_design/url_shortener.md
+    # - GIS:
+    #   - PostGIS Basics: research/gis/postgis_intro.md
   - Blog: blog/index.md
 
 

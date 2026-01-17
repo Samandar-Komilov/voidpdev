@@ -1,4 +1,17 @@
-# PostGIS = PostgreSQL + GIS | Introduction
+---
+title: "Introduction to GIS for a Software Engineer: PostGIS"
+description: "What happens if a software engineer starts interesting Geoinformatics? He starts with bare bones, such as PostGIS!"
+date: 2025-11-30
+categories:
+  - GIS
+tags:
+    - postgres
+    - geography
+---
+
+What happens if a software engineer starts interesting Geoinformatics? He starts with bare bones, such as PostGIS!
+
+<!-- more -->
 
 ### What is a spatial database?
 A spatial database is a database that stores geometry, geography, raster types and executes spatial operations on them. PostGIS is actually an extension to PostgreSQL, which adds spatial abilities through several functions and also third-party access (GDAL/OGR, PROJ and GEOS).
@@ -21,3 +34,6 @@ So, in conclusion:
 
 requires us to use spatial databases. And PostGIS gives solution to all of these cases, which is great in fact, as it is free and it is the cousin of our dear PostgreSQL!
 
+--- 
+
+Soon...

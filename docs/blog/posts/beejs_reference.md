@@ -1,4 +1,17 @@
-# Reference: Beej's Guide to Network Programming
+---
+title: "Beej's Guide to Network Programming: Notes"
+description: "You want to build your own web server in C? Then there is no way but to check out Beej's Guide!"
+date: 2025-05-05
+categories:
+  - Systems Thinking
+tags:
+    - c
+    - computer networking
+---
+
+You want to build your own web server in C? Then there is no way but to check out Beej's Guide!
+
+<!-- more -->
 
 !!! quote
     :bulb: I understood that I have to learn network programming deeper to go further. So, let's read Beej's Guide to Network Programming together.

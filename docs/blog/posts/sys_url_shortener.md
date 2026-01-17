@@ -1,12 +1,16 @@
 ---
-
-title: "Bytely - URL Shortener"
-description: "Scalable URL shortener being built for practicing System Design."
-date: 2025-08-26
-
+title: "URL Shortener System Design: Research"
+description: "How to build a scalable URL shortener? Let's do a research from Alex Xu's book."
+date: 2025-11-24
+categories:
+  - System Design
+tags:
+    - system design
 ---
 
-# Bytely - About
+How to build a scalable URL shortener? Let's do a research from Alex Xu's book.
+
+<!-- more -->
 
 This project is only about building a URL shortener, which seems easy. But before considering them easy, we need to understand what this actually is and how it works under the hood, especially in high load scenarios.
 

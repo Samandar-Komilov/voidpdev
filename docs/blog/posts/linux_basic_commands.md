@@ -1,4 +1,16 @@
-#  The Big Picture and Basic Commands
+---
+title: "Introduction to Linux: The Big Picture and Basic Commands"
+description: "Mastering any skill requires to start from scratch. Let's do the same with Linux: ls -la!"
+date: 2025-06-01
+categories:
+  - Linux
+tags:
+    - linux
+---
+
+Mastering any skill requires to start from scratch. Let's do the same with Linux: ls -la!
+
+<!-- more -->
 
 ## The Big Picture
 

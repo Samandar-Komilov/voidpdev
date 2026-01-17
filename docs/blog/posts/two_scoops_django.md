@@ -3,9 +3,9 @@ title: "Two Scoops of Django 3: My Conclusions"
 description: "My conslusions on reading the book, usages of best-practices and possible problems to avoid."
 date: 2025-10-11
 categories:
-  - Backend
+  - Python
 tags:
-    - python
+    - django
 ---
 
 My conslusions on reading the book, usages of best-practices and possible problems to avoid.

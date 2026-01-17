@@ -3,9 +3,10 @@ title: "Network Programming in Go #1: net/http"
 description: "In this post we are gonna explore the standard `net/http` library internals - how it works and why it works the way it works."
 date: 2025-10-14
 categories:
-  - System Programming
+  - Go language
 tags:
-    - go
+    - system programming
+    - computer networking
 ---
 
 

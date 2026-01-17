@@ -1,4 +1,16 @@
-# Common Programming Concepts
+---
+title: "Introduction to Rust: Common Concepts"
+description: "Rust's common features which can be found in any other language."
+date: 2026-01-16
+categories:
+  - Rust
+tags:
+    - rust
+---
+
+Rust's common features which can be found in any other language.
+
+<!-- more -->
 
 - [The Rust Programming Book](https://doc.rust-lang.org/book/ch01-02-hello-world.html)
 - [A Tour of Rust](https://tourofrust.com/)

@@ -1,4 +1,16 @@
-# Definition
+---
+title: "Proof-based Thinking: Definitions, Theorems and Proofs"
+description: "Introduction to Proof-based Thinking: let's talk about defining objects, making theorems about and proving them."
+date: 2025-11-24
+categories:
+  - Systems Thinking
+tags:
+    - discrete math
+---
+
+Introduction to Proof-based Thinking: let's talk about defining objects, making theorems about and proving them.
+
+<!-- more -->
 
 Precision is the most important thing in Mathematics. If you have an idea, it takes some time to convert it to a clear and precise sentence, and it is very vital to learn this skill. 
 
@@ -170,3 +182,8 @@ Definitions are not descriptions. Definitions are not theorems. They are words u
 18. A lamp is the designated light-emission component of an illumination system.
 19. Money is the designated unit of account in an exchange system.
 20. A flag is a designated identity marker within a sign system.
+
+
+---
+
+Soon...

@@ -3,9 +3,8 @@ title: "Dinamik Xotira | Dynamic Memory Allocation"
 description: "My old research on how dynamic memory works in C."
 date: 2023-07-10
 categories:
-  - System Programming
+  - C language
 tags:
-  - c
   - fundamentals
 ---
 
