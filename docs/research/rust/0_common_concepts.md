@@ -3,7 +3,6 @@
 - [The Rust Programming Book](https://doc.rust-lang.org/book/ch01-02-hello-world.html)
 - [A Tour of Rust](https://tourofrust.com/)
 
-## Variables and Immutability
 ### Variables  
 Variables are immutable by default. But we can mark them as mutable using `mut` keyword. There is a support for constants as well, using `const` keyword:
 
@@ -55,7 +54,7 @@ fn main() {
 ```
 
 
-## Data Types
+### Data Types
 I'll give all of the standard data types in Rust in one place:
 ```rust
 fn main(){
@@ -95,7 +94,7 @@ Individual elements can be retrieved with the `[x]` operator where `x` is a `usi
 
 
 
-## Functions
+### Functions
 A function has zero or more parameters. In this example, the add function takes two arguments of type `i32` (signed integer of 32-bit length):
 ```rust
 fn add(x: i32, y: i32) -> i32 {
@@ -152,7 +151,7 @@ fn main() {
 ```
 
 
-## Control Flow
+### Control Flow
 We already know `if-else`, so we skip it. There is no difference from C, only omitting braces. But...
 
 ### Match (Switch)
@@ -259,9 +258,10 @@ fn main() {
 }
 ```
 
-Rust's `for` loop is a powerful upgrade. It iterates over values from any expression that evaluates into an iterator. What's an iterator? An iterator is an object that you can ask the question "What's the next item you have?" until there are no more items.
+Rust's `for` loop is a powerful upgrade. It iterates over values from any expression that evaluates into an **iterator**. What's an iterator? An iterator is an object that you can ask the question "What's the next item you have?" until there are no more items. It allows to take elements of the object one by one.
 
-> Recall that, in Python this is also true.
+!!! note
+    Recall that, in Python we also had iterators. An object was classified as an **iterator** if it has `__iter__()` and `__next__()` methods defined. 
 
 - The `..` operator creates an iterator that generates numbers from a start number up to but not including an end number. The same as `range()` in Python.
 
@@ -279,3 +279,78 @@ fn main() {
 }
 ```
 
+As we can see, loops are very similar to other languages', especially for loop is almost the same as Python's `for`. This will benefit us certainly.
+
+---
+
+## Exercises
+
+We learned about variables, scalar and compound data types, functions, comments, if/match expressions, and loops! To practice with the concepts discussed in this chapter, we'll try building programs given below:
+
+1. **Configuration Snapshot**
+    * Declare immutable variables for app name and version.
+    * Declare mutable variables for runtime state (requests processed, error count).
+    * Use `const` for hard limits (max requests, timeout seconds).
+    * Shadow a variable to convert user input from `&str` → `i32`.
+    * Print a final summary.
+
+2. **Unit Converter**
+    * Read a numeric value and a unit selector (`1 = Celsius`, `2 = Fahrenheit`).
+    * Use scalar types (`f64`, `u8`).
+    * Implement conversion functions.
+    * Use `if` and `match` appropriately.
+    * Return converted value from function.
+
+3. **Statistics on Fixed Dataset**
+    * Given a fixed array of integers.
+    * Compute min, max, sum, average.
+    * Use a tuple return `(min, max, avg)`.
+    * Iterate using `for`.
+    * No heap allocation.
+
+4. **Password Strength Checker**
+    * Input: fixed string.
+    * Count digits, lowercase, uppercase using loop.
+    * Use `match` on characters.
+    * Return nothing (`()`) but print strength level.
+    * Demonstrates mutable counters and control flow.
+
+5. **Simple Menu System**
+    * Infinite `loop` showing menu options.
+    * `match` on user choice.
+    * Use `break` and `continue`.
+    * Some options call functions returning values, others return nothing.
+
+6. **Time-Based Greeting**
+    * Input hour (`u8`).
+    * Use `if / else if / else` for ranges.
+    * Shadow input string → parsed integer.
+    * Return greeting string from function.
+
+7. **Range Analyzer**
+    * Given two integers.
+    * Use `while` loop to iterate from start to end.
+    * Count evens and odds.
+    * Return results as a tuple.
+    * Demonstrates mutable variables and conditions.
+
+8. **Command Code Interpreter**
+    * Given an array of numeric codes.
+    * Use `match` to map codes to actions.
+    * Unknown codes handled via `_`.
+    * Loop through all commands.
+    * No return value; side-effect only.
+
+9. **Matrix Basics**
+    * Fixed-size 2D array (e.g. `[[i32; 3]; 3]`).
+    * Sum rows and columns.
+    * Use nested `for` loops.
+    * Return total sum.
+    * Reinforces compound data types.
+
+10. **Retry Simulation**
+    * Simulate an operation that fails N times.
+    * Use mutable retry counter.
+    * `while` loop with exit condition.
+    * `match` on attempt number to change behavior.
+    * Print final status.
