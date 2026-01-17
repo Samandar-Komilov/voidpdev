@@ -367,3 +367,100 @@ We learned about variables, scalar and compound data types, functions, comments,
     * `while` loop with exit condition.
     * `match` on attempt number to change behavior.
     * Print final status.
+
+
+### Solutions 
+
+Here are solutions to some of the exercises:
+
+#### Exercise 2
+```rust
+fn ex2_unit_convert() -> i32{
+    enum Unit {
+        C, F
+    }
+
+    let mut buf = String::new();
+    io::stdin().read_line(&mut buf).expect("Failed to read input");
+    let n1: i32 = buf.trim().parse().expect("Invalid Input");
+
+    let mut buf2 = String::new();
+    io::stdin().read_line(&mut buf2).expect("Failed to read input");
+    let u1_inp: u8 = buf2.trim().parse().expect("Invalid Input");
+
+    let mut buf3 = String::new();
+    io::stdin().read_line(&mut buf3).expect("Failed to read input");
+    let u2_inp: u8 = buf3.trim().parse().expect("Invalid Input");
+
+    let unit1 = match u1_inp {
+        1 => Unit::C,
+        2 => Unit::F,
+        _ => Unit::C
+    };
+
+    let unit2 = match u2_inp {
+        1 => Unit::C,
+        2 => Unit::F,
+        _ => Unit::C
+    };
+
+    let res = match (unit1, unit2) {
+        (Unit::C, Unit::F) => (n1 * 9 / 5) + 32,
+        (Unit::F, Unit::C) => (n1 - 32) * 5 / 9,
+        _ => n1
+    };
+
+    res
+
+}
+```
+
+#### Exercise 4
+```rust
+fn ex4_password_checker(str: &str) -> (){
+    #[derive(Debug)]
+    enum StrengthLevel {
+        Strong, Medium, Weak
+    }
+    let mut upper = 0;
+    let mut lower = 0;
+    let mut num = 0;
+    for c in str.chars(){
+        match c {
+            'A'..='Z' => upper += 1,
+            'a'..='z' => lower += 1,
+            '0'..='9' => num += 1,
+            _ => ()
+        }
+    }
+    let strength_num = upper + lower + num;
+    let strength = match strength_num {
+        1..=5 => StrengthLevel::Weak,
+        6..=10 => StrengthLevel::Medium,
+        _ => StrengthLevel::Strong
+    };
+
+    println!("Password Strength: {:?}", strength);
+}
+```
+
+#### Exercise 5
+```rust
+fn ex5_simple_menu(){
+    let mut buf = String::new();
+    let mut choice: u8;
+    loop {
+        println!("Enter choice: ");
+        buf.clear();
+        io::stdin().read_line(&mut buf).expect("Failed to read choice");
+        choice = buf.trim().parse().expect("Invalid value");
+        match choice {
+            1 => println!("Choice 1"),
+            2 => println!("Choice 2"),
+            3 => println!("Choice 3"),
+            0 => break,
+            _ => println!("Invalid choice")
+        }
+    }
+}
+```
