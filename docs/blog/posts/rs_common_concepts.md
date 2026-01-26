@@ -294,6 +294,42 @@ fn main() {
 
 As we can see, loops are very similar to other languages', especially for loop is almost the same as Python's `for`. This will benefit us certainly.
 
+### Common Collections
+The following are the three workhorses of Rust Standard Library which provide the most common data structures.
+
+#### Vector (`Vec<T>`)
+A growable array.
+- **Heap Allocated**: The data lives on the heap.
+- **Layout**: Pointer to data, Capacity, Length.
+```rust
+let mut numbers = Vec::new(); // or vec![1, 2, 3];
+numbers.push(10);
+numbers.push(20);
+let first = numbers[0]; // Access with index
+```
+
+#### String (`String`)
+A growable, UTF-8 encoded text buffer.
+- NOT an array of characters. It handles complex unicode.
+- Under the hood, it's just a `Vec<u8>`.
+```rust
+let mut s = String::from("Hello");
+s.push_str(", World");
+```
+
+#### HashMap (`HashMap<K, V>`)
+Key-Value store. Fast lookups O(1).
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+scores.insert("Blue Team", 10);
+scores.insert("Red Team", 50);
+
+let blue_score = scores.get("Blue Team"); // Returns Option<&i32>
+```
+
+
 ---
 
 ## Exercises

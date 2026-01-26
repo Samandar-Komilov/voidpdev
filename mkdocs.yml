@@ -30,6 +30,7 @@ extra:
   tags:
     Rust: rust
     C: c
+    AI assisted: ai
   social:
     - icon: fontawesome/brands/telegram
       link: https://t.me/voidplog
